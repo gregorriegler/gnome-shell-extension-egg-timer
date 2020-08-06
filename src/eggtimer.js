@@ -13,14 +13,15 @@ class EggTimer {
     }
 
     tick() {
-        this._view(this._timer);
+        if(this._timer > 0) {
+            this._view(--this._timer);
+        }
 
         if (this._timer <= 0) {
             this._finish();
             return;
         }
-        this._timer--;
     }
 }
 
-module.exports = EggTimer
+module.exports = EggTimer;
