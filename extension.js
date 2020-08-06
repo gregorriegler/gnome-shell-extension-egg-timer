@@ -38,7 +38,7 @@ const EggTimer = Me.imports.eggtimer.EggTimer;
 
 const Config = imports.misc.config;
 const Mainloop = imports.mainloop;
-const MIN_TIMER = 60;
+const MIN_TIMER = 2;
 const Debug = false;
 
 const eggTimer = new EggTimer();

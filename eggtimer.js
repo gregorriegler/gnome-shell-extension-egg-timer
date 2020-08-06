@@ -1,23 +1,23 @@
 'use strict';
 
-const EggTimer = function (){
-    let _timer = 0;
-    let _view;
+const EggTimer = function () {
+    this._timer = 0;
+    this._view;
 
-    this.init = function (duration, view) {
-        _timer = duration
-        _view = view;
+    this.init = (duration, view) => {
+        this._timer = duration
+        this._view = view;
 
-        _view(_timer)
+        this._view(this._timer)
     }
 
     this.tick = (finish) => {
-        _view(_timer);
+        this._view(this._timer);
 
-        if (_timer <= 0) {
+        if (this._timer <= 0) {
             finish();
             return;
         }
-        _timer--;
+        this._timer--;
     };
 };
