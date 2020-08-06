@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha",
     "test:watch": "mocha -R min -w",
-    "install": "gulp install"
+    "install": "gulp install",
+    "start": "gulp start"
   },
   "keywords": [],
   "author": "",
