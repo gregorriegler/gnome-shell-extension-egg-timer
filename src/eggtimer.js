@@ -1,7 +1,5 @@
 'use strict';
 
-const Duration = require('../src/duration')
-
 class EggTimer {
     constructor(view, finish, duration) {
         this._view = view;

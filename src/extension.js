@@ -65,7 +65,7 @@ function startTimer() {
 function finishTimer() {
     info('finished timer');
     sound.play();
-    pauseTimer(duration(indicator.timeSlider.value));
+    pauseTimer(indicator.timeSlider.value);
     indicator.showPlayButton();
 }
 
@@ -79,7 +79,7 @@ function pauseTimer(timer) {
     }
 
     if (timer !== undefined) {
-        eggTimer.init(new Duration(MIN_TIMER, timer))
+        eggTimer.init(Duration.of(MIN_TIMER, timer))
     }
 }
 
@@ -103,10 +103,6 @@ function prettyPrintDuration(duration) {
     return timeLeftPretty;
 }
 
-function duration(value) {
-    return Math.floor(value * 50) * 60;
-}
-
 let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
 
     _init() {
@@ -117,7 +113,7 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
             style_class: 'system-status-icon'
         });
         this.timeDisplay = new St.Label({
-            text: prettyPrintDuration(duration(0)),
+            text: new Duration(MIN_TIMER).prettyPrint(),
             y_align: Clutter.ActorAlign.CENTER,
         });
 
@@ -165,7 +161,7 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
 
     sliderMoved(item) {
         debug(`slider moved ${item.value}`);
-        pauseTimer(duration(item.value));
+        pauseTimer(item.value);
         this.showPlayButton();
     }
 
@@ -210,7 +206,7 @@ function enable() {
         return indicator.displayDuration.bind(indicator);
     }
 
-    eggTimer = new EggTimer(displayDuration(), finishTimer, new Duration(MIN_TIMER, 0));
+    eggTimer = new EggTimer(displayDuration(), finishTimer, new Duration(MIN_TIMER));
     Main.panel.addToStatusArea(`${Me.metadata.name} Indicator`, indicator);
     sound = new Sound();
 }

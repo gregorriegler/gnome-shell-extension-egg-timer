@@ -2,15 +2,19 @@
 
 class Duration {
 
-    constructor(min, percentage) {
+    constructor(duration) {
+        this.duration = duration;
+    }
+
+    static of(min, percentage) {
         if (percentage !== undefined) {
-            this.duration = Math.floor(percentage * 60) * 60;
-            if (this.duration < min) {
-                this.duration = min;
+            let duration = Math.floor(percentage * 60) * 60;
+            if (duration < min) {
+                duration = min;
             }
-            return;
+            return new Duration(duration);
         }
-        this.duration = min;
+        return new Duration(min);
     }
 
     value() {
