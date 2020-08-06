@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const gulp = require("gulp");
+const modifyFile = require('gulp-modify-file')
 const exec = require('child_process').exec;
 
 const metadata = JSON.parse(fs.readFileSync("metadata.json"));
@@ -13,7 +14,15 @@ var config = {
 };
 
 function install(cb) {
-    gulp.src(["metadata.json", "ding.ogg", "egg.svg", "stylesheet.css", "LICENSE", config.srcDir + "/*.js"])
+    gulp.src(["metadata.json", "ding.ogg", "egg.svg", "stylesheet.css", "LICENSE"])
+        .pipe(gulp.dest(config.installDir));
+
+    gulp.src([config.srcDir + "/*.js"])
+        .pipe(modifyFile((content, path, file) => {
+            return content
+                .replace(/module\.exports.*/, '')
+                .replace(/const[\s]+(.*)[\s]+=[\s]+require\(\'\.\.\/src\/(.*)\'\)/, "const $1 = imports.misc.extensionUtils.getCurrentExtension().imports.$2.$1")
+        }))
         .pipe(gulp.dest(config.installDir));
     cb();
 }

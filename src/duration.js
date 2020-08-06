@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = class Duration {
+class Duration {
     constructor(min, percentage) {
         if (percentage !== undefined) {
             this.duration = Math.floor(percentage * 60) * 60;
@@ -24,3 +24,5 @@ module.exports = class Duration {
         return minutes + ":" + seconds;
     }
 }
+
+module.exports = Duration
