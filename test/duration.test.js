@@ -24,4 +24,12 @@ describe('Duration', function() {
     it('decrements', function() {
         expect(new Duration(2).decrement()).to.eql(new Duration(1))
     })
+
+    it('is not over before 0', function() {
+        expect(new Duration(2).isOver()).to.equal(false)
+    })
+
+    it('is over on 0', function() {
+        expect(new Duration(0).isOver()).to.equal(true)
+    })
 })

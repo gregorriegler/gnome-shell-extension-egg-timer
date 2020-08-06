@@ -21,6 +21,10 @@ class Duration {
         return this.duration
     }
 
+    isOver() {
+        return this.duration <= 0
+    }
+
     decrement() {
         return new Duration(this.duration-1, 0)
     }
