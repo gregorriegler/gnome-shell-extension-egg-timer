@@ -1,0 +1,17 @@
+{
+  "name": "egg-timer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/duration.js",
+  "scripts": {
+    "test": "mocha",
+    "test:watch": "mocha -R min -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.1.1"
+  }
+}
