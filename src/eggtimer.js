@@ -2,8 +2,6 @@
 
 const Duration = require('../src/duration')
 
-let duration = new Duration();
-
 class EggTimer {
     constructor(view, finish, duration) {
         this._view = view;
@@ -12,7 +10,7 @@ class EggTimer {
     }
 
     init(duration) {
-        this._timer = duration
+        this._timer = duration.value()
         this._view(this._timer)
     }
 

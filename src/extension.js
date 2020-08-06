@@ -38,6 +38,7 @@ const Slider = imports.ui.slider;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const EggTimer = Me.imports.eggtimer.EggTimer;
 const Sound = Me.imports.sound.Sound;
+const Duration = Me.imports.duration.Duration;
 
 const Config = imports.misc.config;
 const Mainloop = imports.mainloop;
@@ -78,7 +79,7 @@ function pauseTimer(timer) {
     }
 
     if (timer !== undefined) {
-        eggTimer.init(timer + MIN_TIMER)
+        eggTimer.init(new Duration(MIN_TIMER, timer))
     }
 }
 
@@ -209,7 +210,7 @@ function enable() {
         return indicator.displayDuration.bind(indicator);
     }
 
-    eggTimer = new EggTimer(displayDuration(), finishTimer, MIN_TIMER);
+    eggTimer = new EggTimer(displayDuration(), finishTimer, new Duration(MIN_TIMER, 0));
     Main.panel.addToStatusArea(`${Me.metadata.name} Indicator`, indicator);
     sound = new Sound();
 }
