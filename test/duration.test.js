@@ -20,8 +20,3 @@ describe('Duration', function() {
         expect(new Duration(60, 0).value()).to.equal(60)
     })
 });
-//
-// import Duration from "src/duration";
-//
-// let duration = new Duration(0);
-// console.log(duration);

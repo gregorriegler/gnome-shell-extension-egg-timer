@@ -5,13 +5,15 @@
   "main": "src/duration.js",
   "scripts": {
     "test": "mocha",
-    "test:watch": "mocha -R min -w"
+    "test:watch": "mocha -R min -w",
+    "install": "gulp install"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "chai": "^4.2.0",
+    "gulp": "^4.0.2",
     "mocha": "^8.1.1"
   }
 }
