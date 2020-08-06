@@ -34,12 +34,14 @@ const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const Slider = imports.ui.slider;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const eggTimer = Me.imports.eggtimer;
+const EggTimer = Me.imports.eggtimer.EggTimer;
+
 const Config = imports.misc.config;
 const Mainloop = imports.mainloop;
 const MIN_TIMER = 60;
 const Debug = false;
 
+const eggTimer = new EggTimer();
 let indicator = null;
 let timeDisplay;
 let timeout;
