@@ -19,7 +19,6 @@ class EggTimer {
 
         if (this._timer <= 0) {
             this._finish();
-            return;
         }
     }
 }
