@@ -1,18 +1,21 @@
 'use strict';
 
-let timer = 0;
+let _timer = 0;
+let _view;
 
 var init = function (duration, view) {
-    timer = duration
-    view(timer)
+    _timer = duration
+    _view = view;
+
+    _view(_timer)
 }
 
-var tick = (view, finish) => {
-    view(timer);
+var tick = (finish) => {
+    _view(_timer);
 
-    if(timer <= 0) {
+    if(_timer <= 0) {
         finish();
         return;
     }
-    timer--;
+    _timer--;
 };

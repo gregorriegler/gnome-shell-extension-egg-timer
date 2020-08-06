@@ -93,7 +93,7 @@ function continueTimer() {
         debug(`continue timer. timeout: ${timeout}`);
 
         timeout = Mainloop.timeout_add_seconds(1, () => {
-            eggTimer.tick(displayDuration, finishTimer);
+            eggTimer.tick(finishTimer);
             continueTimer()
         });
     }
