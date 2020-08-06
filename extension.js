@@ -48,6 +48,9 @@ let eggTimer
 let sound
 let indicator = null;
 let timeout;
+
+
+//-- control code --
 let playing = false;
 
 function startTimer() {
