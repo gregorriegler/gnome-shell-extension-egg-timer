@@ -22,3 +22,5 @@ class EggTimer {
         this._timer--;
     }
 }
+
+module.exports = EggTimer

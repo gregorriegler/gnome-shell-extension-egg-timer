@@ -1,7 +1,8 @@
-'use strict';
-const Duration = require("../src/duration");
-const {describe, it} = require("mocha");
-const expect = require('chai').expect;
+'use strict'
+
+const {describe, it} = require("mocha")
+const expect = require('chai').expect
+const Duration = require("../src/duration")
 
 describe('Duration', function() {
     it('pretty prints', function() {
@@ -19,4 +20,4 @@ describe('Duration', function() {
     it('returns the value', function() {
         expect(new Duration(60, 0).value()).to.equal(60)
     })
-});
+})

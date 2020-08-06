@@ -23,5 +23,4 @@ module.exports = class Duration {
         seconds = seconds < 10 ? "0" + seconds : seconds;
         return minutes + ":" + seconds;
     }
-
 }
