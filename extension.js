@@ -100,10 +100,6 @@ function prettyPrintDuration(duration) {
     return timeLeftPretty;
 }
 
-function displayDuration(duration) {
-    timeDisplay.set_text(prettyPrintDuration(duration));
-}
-
 function duration(value) {
     return Math.floor(value * 50) * 60;
 }
@@ -135,7 +131,6 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
         let sliderItem = new PopupMenu.PopupBaseMenuItem();
         this.timeSlider = new Slider.Slider(0);
         this.timeSlider.connect(parseFloat(Config.PACKAGE_VERSION.substring(0, 4)) > 3.32 ? 'notify::value' : 'value-changed', this.sliderMoved.bind(this));
-        eggTimer = new EggTimer(displayDuration, finishTimer, MIN_TIMER);
 
         sliderItem.add(this.timeSlider);
 
@@ -159,6 +154,10 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
 
         section.addMenuItem(sliderItem);
         section.addMenuItem(playButtomItem);
+    }
+
+    displayDuration(duration) {
+        timeDisplay.set_text(prettyPrintDuration(duration));
     }
 
     sliderMoved(item) {
@@ -203,6 +202,7 @@ function enable() {
     info(`enabling`);
 
     indicator = new EggTimerIndicator();
+    eggTimer = new EggTimer(indicator.displayDuration, finishTimer, MIN_TIMER);
     Main.panel.addToStatusArea(`${Me.metadata.name} Indicator`, indicator);
     sound = new Sound();
 }
