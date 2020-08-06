@@ -8,17 +8,19 @@ class EggTimer {
     }
 
     init(duration) {
-        this._timer = duration.value()
-        this._view(this._timer)
+        this._duration = duration;
+        this._view(this._duration.value())
     }
 
     tick() {
-        if(this._timer > 0) {
-            this._view(--this._timer);
+        if(!this._duration.isOver()) {
+            this._duration = this._duration.decrement();
+            this._view(this._duration.value());
         }
 
-        if (this._timer <= 0) {
+        if (this._duration.isOver()) {
             this._finish();
+            return
         }
     }
 }
