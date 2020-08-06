@@ -25,6 +25,8 @@
  * TODO: loop button for endless timer
  * TODO: name, manifest and so on
  * TODO: try a version where the play button is in the top bar
+ * TODO: 00:00 not shown
+ * TODO: Attempting to add actor of type 'StIcon' to a container of type 'StButton', but the actor has already a parent of type 'StButton'.
  */
 'use strict';
 
@@ -41,7 +43,7 @@ const Mainloop = imports.mainloop;
 const MIN_TIMER = 2;
 const Debug = false;
 
-const eggTimer = new EggTimer();
+let eggTimer
 let indicator = null;
 let timeDisplay;
 let timeout;
@@ -58,7 +60,7 @@ function playSound() {
 }
 
 function initTimer() {
-    eggTimer.init(MIN_TIMER, displayDuration)
+    eggTimer = new EggTimer(MIN_TIMER, displayDuration);
 }
 
 function startTimer() {
@@ -86,7 +88,7 @@ function pauseTimer(timer) {
     }
 
     if (timer !== undefined) {
-        eggTimer.init(timer + MIN_TIMER, displayDuration)
+        eggTimer.init(timer + MIN_TIMER)
     }
 }
 
