@@ -1,8 +1,9 @@
 'use strict';
 
 class EggTimer {
-    constructor(duration, view) {
+    constructor(view, finish, duration) {
         this._view = view;
+        this._finish = finish;
         this.init(duration);
     }
 
@@ -11,11 +12,11 @@ class EggTimer {
         this._view(this._timer)
     }
 
-    tick(finish) {
+    tick() {
         this._view(this._timer);
 
         if (this._timer <= 0) {
-            finish();
+            this._finish();
             return;
         }
         this._timer--;

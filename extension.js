@@ -60,7 +60,7 @@ function playSound() {
 }
 
 function initTimer() {
-    eggTimer = new EggTimer(MIN_TIMER, displayDuration);
+    eggTimer = new EggTimer(displayDuration, finishTimer, MIN_TIMER);
 }
 
 function startTimer() {
@@ -97,7 +97,7 @@ function continueTimer() {
         debug(`continue timer. timeout: ${timeout}`);
 
         timeout = Mainloop.timeout_add_seconds(1, () => {
-            eggTimer.tick(finishTimer);
+            eggTimer.tick();
             continueTimer()
         });
     }
