@@ -42,12 +42,11 @@ const Sound = Me.imports.sound.Sound;
 const Config = imports.misc.config;
 const Mainloop = imports.mainloop;
 const MIN_TIMER = 2;
-const Debug = false;
+const Debug = true;
 
 let eggTimer
 let sound
 let indicator = null;
-let timeDisplay;
 let timeout;
 let playing = false;
 
@@ -113,14 +112,14 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
             gicon: Gio.icon_new_for_string(`${Me.path}/egg.svg`),
             style_class: 'system-status-icon'
         });
-        timeDisplay = new St.Label({
+        this.timeDisplay = new St.Label({
             text: prettyPrintDuration(duration(0)),
             y_align: Clutter.ActorAlign.CENTER,
         });
 
         let panelBox = new St.BoxLayout();
         panelBox.add_actor(eggIcon);
-        panelBox.add_actor(timeDisplay);
+        panelBox.add_actor(this.timeDisplay);
 
         this.add_child(panelBox);
 
@@ -157,7 +156,7 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
     }
 
     displayDuration(duration) {
-        timeDisplay.set_text(prettyPrintDuration(duration));
+        this.timeDisplay.set_text(prettyPrintDuration(duration));
     }
 
     sliderMoved(item) {
@@ -202,7 +201,12 @@ function enable() {
     info(`enabling`);
 
     indicator = new EggTimerIndicator();
-    eggTimer = new EggTimer(indicator.displayDuration, finishTimer, MIN_TIMER);
+
+    function displayDuration() {
+        return indicator.displayDuration.bind(indicator);
+    }
+
+    eggTimer = new EggTimer(displayDuration(), finishTimer, MIN_TIMER);
     Main.panel.addToStatusArea(`${Me.metadata.name} Indicator`, indicator);
     sound = new Sound();
 }
