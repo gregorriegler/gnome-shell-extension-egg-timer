@@ -1,6 +1,7 @@
 'use strict';
 
 class Duration {
+
     constructor(min, percentage) {
         if (percentage !== undefined) {
             this.duration = Math.floor(percentage * 60) * 60;
@@ -14,6 +15,10 @@ class Duration {
 
     value() {
         return this.duration
+    }
+
+    decrement() {
+        return new Duration(this.duration-1, 0)
     }
 
     prettyPrint() {

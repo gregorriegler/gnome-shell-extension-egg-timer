@@ -20,4 +20,8 @@ describe('Duration', function() {
     it('returns the value', function() {
         expect(new Duration(60, 0).value()).to.equal(60)
     })
+
+    it('decrements', function() {
+        expect(new Duration(2, 0).decrement()).to.eql(new Duration(1,0))
+    })
 })
