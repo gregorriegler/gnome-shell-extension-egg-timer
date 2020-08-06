@@ -37,26 +37,26 @@ const PopupMenu = imports.ui.popupMenu;
 const Slider = imports.ui.slider;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const EggTimer = Me.imports.eggtimer.EggTimer;
+const Sound = Me.imports.sound.Sound;
 
 const Config = imports.misc.config;
 const Mainloop = imports.mainloop;
-const MIN_TIMER = 2;
+const MIN_TIMER = 1;
 const Debug = false;
 
 let eggTimer
+let sound
 let indicator = null;
 let timeDisplay;
 let timeout;
 let playing = false;
-let finishSound;
 
 function initSound() {
-    finishSound = Gio.File.new_for_path(`${Me.path}/ding.ogg`);
+    sound = new Sound();
 }
 
 function playSound() {
-    let soundPlayer = global.display.get_sound_player();
-    soundPlayer.play_from_file(finishSound, 'arbitrary description', null);
+    sound.play();
 }
 
 function initTimer() {
