@@ -51,14 +51,6 @@ let timeDisplay;
 let timeout;
 let playing = false;
 
-function initSound() {
-    sound = new Sound();
-}
-
-function playSound() {
-    sound.play();
-}
-
 function initTimer() {
     eggTimer = new EggTimer(displayDuration, finishTimer, MIN_TIMER);
 }
@@ -73,7 +65,7 @@ function startTimer() {
 
 function finishTimer() {
     info('finished timer');
-    playSound();
+    sound.play();
     pauseTimer(duration(indicator.timeSlider.value));
     indicator.showPlayButton();
 }
@@ -216,7 +208,7 @@ function enable() {
 
     indicator = new EggTimerIndicator();
     Main.panel.addToStatusArea(`${Me.metadata.name} Indicator`, indicator);
-    initSound();
+    sound = new Sound();
 }
 
 function disable() {
