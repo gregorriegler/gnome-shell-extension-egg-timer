@@ -41,7 +41,7 @@ const Sound = Me.imports.sound.Sound;
 
 const Config = imports.misc.config;
 const Mainloop = imports.mainloop;
-const MIN_TIMER = 1;
+const MIN_TIMER = 2;
 const Debug = false;
 
 let eggTimer
@@ -50,10 +50,6 @@ let indicator = null;
 let timeDisplay;
 let timeout;
 let playing = false;
-
-function initTimer() {
-    eggTimer = new EggTimer(displayDuration, finishTimer, MIN_TIMER);
-}
 
 function startTimer() {
     info(`start timer`);
@@ -139,7 +135,7 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
         let sliderItem = new PopupMenu.PopupBaseMenuItem();
         this.timeSlider = new Slider.Slider(0);
         this.timeSlider.connect(parseFloat(Config.PACKAGE_VERSION.substring(0, 4)) > 3.32 ? 'notify::value' : 'value-changed', this.sliderMoved.bind(this));
-        initTimer();
+        eggTimer = new EggTimer(displayDuration, finishTimer, MIN_TIMER);
 
         sliderItem.add(this.timeSlider);
 
