@@ -14,7 +14,7 @@ class Duration {
         return this.duration
     }
 
-    isOver() {
+    zero() {
         return this.duration <= 0
     }
 

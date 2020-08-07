@@ -15,7 +15,7 @@ class EggTimer {
     }
 
     tick() {
-        if (this._duration.isOver()) {
+        if (this._duration.zero()) {
             if (!this._over) {
                 this.notifyFinish();
                 this._over = true;
