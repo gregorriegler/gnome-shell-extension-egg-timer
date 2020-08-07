@@ -198,12 +198,8 @@ function enable() {
 
     indicator = new EggTimerIndicator();
 
-    function displayDuration() {
-        return indicator.displayDuration.bind(indicator);
-    }
-
-    eggTimer = new EggTimer(displayDuration(), finishTimer, new Duration(MIN_TIMER));
-    Main.panel.addToStatusArea(`${Me.metadata.name} Indicator`, indicator);
+    eggTimer = new EggTimer(indicator.displayDuration.bind(indicator), finishTimer, new Duration(MIN_TIMER));
+    Main.panel.addToStatusArea(`${Me.metadata.name}-indicator`, indicator);
     sound = new Sound();
 }
 
