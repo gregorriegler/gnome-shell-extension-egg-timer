@@ -110,26 +110,26 @@ function continueTimer() {
 function finishTimer() {
     info('finished timer');
     sound.play();
-    pauseTimer(createDuration(indicator.timeSlider.value));
     indicator.showPlayButton();
+    changeDurationByPercent(indicator.timeSlider.value);
 }
 
 function changeDurationByPercent(percentage) {
-    const duration = createDuration(percentage)
-    debugTime('change duration', duration);
-    pauseTimer(duration);
+    changeDuration(createDuration(percentage));
 }
 
-function pauseTimer(duration) {
-    debugTime('pause timer', duration);
-    playing = false;
+function changeDuration(duration) {
+    debugTime('change duration', duration);
+    eggTimer.init(duration)
+    pauseTimer();
+}
 
+function pauseTimer() {
+    playing = false;
     if (timeout !== undefined) {
         Mainloop.source_remove(timeout);
         timeout = undefined;
     }
-
-    eggTimer.init(duration)
     indicator.showPlayButton();
 }
 
