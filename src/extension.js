@@ -62,7 +62,7 @@ function startTimer() {
 }
 
 function continueTimer() {
-    if (!eggTimer.over()) {
+    if (playing) {
         debug(`continue timer`);
 
         timeout = Mainloop.timeout_add_seconds(1, () => {

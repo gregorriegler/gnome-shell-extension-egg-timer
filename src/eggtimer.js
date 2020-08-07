@@ -21,6 +21,7 @@ class EggTimer {
                 this._over = true;
             }
         } else {
+            this._over = false;
             this._duration = this._duration.decrement();
             this.viewCallback(this._duration);
         }
