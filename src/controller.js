@@ -10,7 +10,7 @@ const MAX_TIMER = 3000
 
 class Controller {
 
-    constructor(eggTimer, indicator, clock) {
+    constructor(eggTimer, indicator) {
         eggTimer.init(new Duration(MIN_TIMER))
         this.eggTimer = eggTimer
         this.indicator = indicator
@@ -29,6 +29,10 @@ class Controller {
         } else {
             this.start()
         }
+    }
+
+    toggleLoop(loop) {
+        debug(`toggle loop ${loop}`)
     }
 
     start() {

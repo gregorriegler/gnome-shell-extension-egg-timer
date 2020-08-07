@@ -25,6 +25,10 @@ class EggTimerIndicator extends PanelMenu.Button {
         this.changeDurationByPercent = changeDurationByPercent
     }
 
+    setToggleLoopHandler(toggleLoopHandler) {
+        this.toggleLoopHandler = toggleLoopHandler
+    }
+
     createPanelBox() {
         this.timeDisplay = new St.Label({
             text: new Duration(0).prettyPrint(),
@@ -47,7 +51,7 @@ class EggTimerIndicator extends PanelMenu.Button {
 
         this.playIcon = new St.Icon({
             gicon: new Gio.ThemedIcon({name: 'media-playback-start'}),
-            style_class: 'system-status-icon'
+            style_class: 'system-status-icon',
         })
         this.pauseIcon = new St.Icon({
             gicon: new Gio.ThemedIcon({name: 'media-playback-pause'}),
@@ -58,12 +62,17 @@ class EggTimerIndicator extends PanelMenu.Button {
         this.playPauseButton.connect('clicked', this.clickPlayPause.bind(this))
         this.playPauseButton.set_child(this.playIcon)
 
-        let playButtomItem = new PopupMenu.PopupBaseMenuItem()
-        playButtomItem.add(this.playPauseButton)
+        let playButtonItem = new PopupMenu.PopupBaseMenuItem()
+        playButtonItem.add(this.playPauseButton)
+
+        this.loopSwitch = new PopupMenu.PopupSwitchMenuItem('Loop', false)
+        this.loopSwitch.label.set_y_align(Clutter.ActorAlign.CENTER)
+        this.loopSwitch.connect('toggled', this.loopSwitchChanged.bind(this))
 
         let section = new PopupMenu.PopupMenuSection()
         section.addMenuItem(sliderItem)
-        section.addMenuItem(playButtomItem)
+        section.addMenuItem(this.loopSwitch)
+        section.addMenuItem(playButtonItem)
         return section
     }
 
@@ -77,6 +86,10 @@ class EggTimerIndicator extends PanelMenu.Button {
 
     sliderMoved(item) {
         this.changeDurationByPercent(item.value)
+    }
+
+    loopSwitchChanged() {
+        this.toggleLoopHandler(this.loopSwitch.state)
     }
 
     showPauseButton() {
