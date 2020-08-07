@@ -8,8 +8,8 @@ console.log(EggTimer)
 
 describe('EggTimer', function() {
     let output = [];
-    const viewSpy = function(timer) {
-        output.push(timer)
+    const viewSpy = function(duration) {
+        output.push(duration.value())
     }
 
     let finish = [];
@@ -77,6 +77,13 @@ describe('EggTimer', function() {
         eggTimer.init(new Duration(2))
 
         expect(eggTimer.over()).to.equal(false)
+    })
+
+    it('shows left duration', function() {
+        eggTimer.tick()
+        eggTimer.duration()
+
+        expect(eggTimer.duration()).to.eql(new Duration(1))
     })
 
     afterEach(() => {

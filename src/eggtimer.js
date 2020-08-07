@@ -9,20 +9,24 @@ class EggTimer {
 
     init(duration) {
         this._over = false;
-        this.duration = duration;
-        this.viewCallback(this.duration.value())
+        this._duration = duration;
+        this.viewCallback(this._duration)
     }
 
     tick() {
-        if (this.duration.isOver()) {
+        if (this._duration.isOver()) {
             if (!this._over) {
                 this.finishCallback();
                 this._over = true;
             }
         } else {
-            this.duration = this.duration.decrement();
-            this.viewCallback(this.duration.value());
+            this._duration = this._duration.decrement();
+            this.viewCallback(this._duration);
         }
+    }
+
+    duration() {
+        return this._duration;
     }
 
     over() {

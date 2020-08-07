@@ -64,12 +64,12 @@ function startTimer() {
 function finishTimer() {
     info('finished timer');
     sound.play();
-    pauseTimer(indicator.timeSlider.value);
+    pauseTimer(Duration.of(MIN_TIMER, indicator.timeSlider.value));
     indicator.showPlayButton();
 }
 
-function pauseTimer(timer) {
-    debug(`pauseTimer ${timer}`);
+function pauseTimer(duration) {
+    debug(`pauseTimer ${duration.prettyPrint()}`);
     playing = false;
 
     if (timeout !== undefined) {
@@ -77,29 +77,18 @@ function pauseTimer(timer) {
         timeout = undefined;
     }
 
-    if (timer !== undefined) {
-        eggTimer.init(Duration.of(MIN_TIMER, timer))
-    }
+    eggTimer.init(duration)
 }
 
 function continueTimer() {
-    if (playing) {
-        debug(`continue timer. timeout: ${timeout}`);
+    if (!eggTimer.over()) {
+        debug(`continue timer`);
 
         timeout = Mainloop.timeout_add_seconds(1, () => {
             eggTimer.tick();
             continueTimer()
         });
     }
-}
-
-function prettyPrintDuration(duration) {
-    let minutes = parseInt(duration / 60, 10);
-    let seconds = parseInt(duration % 60, 10);
-    minutes = minutes < 10 ? "0" + minutes : minutes;
-    seconds = seconds < 10 ? "0" + seconds : seconds;
-    let timeLeftPretty = minutes + ":" + seconds;
-    return timeLeftPretty;
 }
 
 let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
@@ -155,12 +144,12 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
     }
 
     displayDuration(duration) {
-        this.timeDisplay.set_text(prettyPrintDuration(duration));
+        this.timeDisplay.set_text(duration.prettyPrint());
     }
 
     sliderMoved(item) {
         debug(`slider moved ${item.value}`);
-        pauseTimer(item.value);
+        pauseTimer(Duration.of(MIN_TIMER, item.value));
         this.showPlayButton();
     }
 
