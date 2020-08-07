@@ -1,3 +1,5 @@
+'use strict';
+
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Duration = Me.imports.duration.Duration;
 const {debug, debugTime, info} = Me.imports.log;
@@ -54,5 +56,6 @@ class Controller {
 
     destroy() {
         this.clock.stopTicking();
+        this.indicator.destroy();
     }
 }

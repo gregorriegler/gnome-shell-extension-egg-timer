@@ -1,3 +1,5 @@
+'use strict';
+
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Debug = true;
 

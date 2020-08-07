@@ -28,33 +28,27 @@
  */
 'use strict';
 
-const {St, Clutter, Gio, GObject} = imports.gi;
 const Main = imports.ui.main;
-const PanelMenu = imports.ui.panelMenu;
-const PopupMenu = imports.ui.popupMenu;
-const Slider = imports.ui.slider;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const {debug, debugTime, info} = Me.imports.log;
+const {info} = Me.imports.log;
+const EggTimerIndicator = Me.imports.indicator.EggTimerIndicator;
 const Controller = Me.imports.controller.Controller;
 const Clock = Me.imports.clock.Clock;
 const EggTimer = Me.imports.eggtimer.EggTimer;
 const Sound = Me.imports.sound.Sound;
 const Duration = Me.imports.duration.Duration;
 
-const Config = imports.misc.config;
-
 // -- app --
 
-let indicator = null;
 let controller;
 function init() {
-    info(`initializing`);
+    info('initializing');
 }
 
 function enable() {
-    info(`enabling`);
+    info('enabling');
 
-    indicator = new EggTimerIndicator();
+    let indicator = new EggTimerIndicator();
     let eggTimer = new EggTimer(
         indicator.displayDuration.bind(indicator),
         new Duration(0)
@@ -66,108 +60,20 @@ function enable() {
         eggTimer, indicator, new Clock(eggTimerTick), new Sound()
     );
 
+    let togglePlayPause = function () {
+        controller.togglePlayPause()
+    }
+
+    let changeDurationByPercent = function (percentage) {
+        controller.changeDurationByPercent(percentage)
+    }
+
+    indicator.setHandlers(togglePlayPause, changeDurationByPercent)
+
     Main.panel.addToStatusArea(`${Me.metadata.name}-indicator`, indicator);
 }
 
 function disable() {
     info(`disabling`);
-
-    if (indicator !== null) {
-        indicator.destroy();
-        indicator = null;
-    }
-
     controller.destroy()
-}
-
-// -- view --
-let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
-
-    _init() {
-        super._init(0.0, `${Me.metadata.name} Indicator`, false);
-
-        this.add_child(this.createPanelBox());
-        this.menu.addMenuItem(this.createMenu());
-    }
-
-    createPanelBox() {
-        this.timeDisplay = new St.Label({
-            text: new Duration(0).prettyPrint(),
-            y_align: Clutter.ActorAlign.CENTER,
-        });
-        let panelBox = new St.BoxLayout();
-        panelBox.add(new St.Icon({
-            gicon: Gio.icon_new_for_string(`${Me.path}/egg.svg`),
-            style_class: 'system-status-icon'
-        }));
-        panelBox.add(this.timeDisplay);
-        return panelBox;
-    }
-
-    createMenu() {
-        let sliderItem = new PopupMenu.PopupBaseMenuItem();
-        this.timeSlider = new Slider.Slider(0);
-        this.timeSlider.connect(valueChanged(), this.sliderMoved.bind(this));
-        sliderItem.add(this.timeSlider);
-
-        this.playIcon = new St.Icon({
-            gicon: new Gio.ThemedIcon({name: 'media-playback-start'}),
-            style_class: 'system-status-icon'
-        });
-        this.pauseIcon = new St.Icon({
-            gicon: new Gio.ThemedIcon({name: 'media-playback-pause'}),
-            style_class: 'system-status-icon'
-        });
-
-        this.playPauseButton = new St.Button();
-        this.playPauseButton.connect('clicked', this.clickPlayPause.bind(this));
-        this.playPauseButton.set_child(this.playIcon);
-
-        let playButtomItem = new PopupMenu.PopupBaseMenuItem();
-        playButtomItem.add(this.playPauseButton);
-
-        let section = new PopupMenu.PopupMenuSection();
-        section.addMenuItem(sliderItem);
-        section.addMenuItem(playButtomItem);
-        return section;
-    }
-
-    displayDuration(duration) {
-        this.timeDisplay.set_text(duration.prettyPrint());
-    }
-
-    sliderMoved(item) {
-        controller.changeDurationByPercent(item.value);
-    }
-
-    clickPlayPause() {
-        controller.togglePlayPause();
-    }
-
-    showPauseButton() {
-        if (this.playPauseButton.get_child() !== this.pauseIcon) {
-            this.playPauseButton.set_child(this.pauseIcon);
-        }
-        this.menu.close();
-    }
-
-    showPlayButton() {
-        if (this.playPauseButton.get_child() !== this.playIcon) {
-            this.playPauseButton.set_child(this.playIcon);
-        }
-    }
-}
-
-// -- compatibility --
-function valueChanged() {
-    return parseFloat(Config.PACKAGE_VERSION.substring(0, 4)) > 3.32
-        ? 'notify::value'
-        : 'value-changed';
-}
-
-if (parseInt(Config.PACKAGE_VERSION.split('.')[1]) > 30) {
-    EggTimerIndicator = GObject.registerClass(
-        {GTypeName: 'EggTimerIndicator'},
-        EggTimerIndicator
-    );
 }
