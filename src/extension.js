@@ -50,7 +50,6 @@ const MAX_TIMER = 3000;
 let eggTimer
 let sound
 let indicator = null;
-let clock;
 let controller;
 
 function init() {
@@ -68,11 +67,10 @@ function enable() {
     function eggTimerTick() {
         eggTimer.tick(controller.finish.bind(controller));
     }
-    clock = new Clock(eggTimerTick);
     sound = new Sound();
 
     controller = new Controller(
-        eggTimer, indicator, clock, sound
+        eggTimer, indicator, new Clock(eggTimerTick), sound
     );
 
 
