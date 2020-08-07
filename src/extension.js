@@ -18,7 +18,6 @@
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  *
- * journalctl -f -o cat /usr/bin/gnome-shell | grep egg-timer -A7
  * TODO: refactor ui
  * TODO: egg timer decides when to start and when to stop ticks
  * TODO: on click play close menu
@@ -97,17 +96,16 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
     _init() {
         super._init(0.0, `${Me.metadata.name} Indicator`, false);
 
-        let eggIcon = new St.Icon({
-            gicon: Gio.icon_new_for_string(`${Me.path}/egg.svg`),
-            style_class: 'system-status-icon'
-        });
         this.timeDisplay = new St.Label({
             text: new Duration(MIN_TIMER).prettyPrint(),
             y_align: Clutter.ActorAlign.CENTER,
         });
 
         let panelBox = new St.BoxLayout();
-        panelBox.add_actor(eggIcon);
+        panelBox.add_actor(new St.Icon({
+            gicon: Gio.icon_new_for_string(`${Me.path}/egg.svg`),
+            style_class: 'system-status-icon'
+        }));
         panelBox.add_actor(this.timeDisplay);
         this.add_child(panelBox);
 
