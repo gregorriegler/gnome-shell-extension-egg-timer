@@ -220,7 +220,7 @@ function disable() {
 }
 
 function info(message) {
-    log(Me.metadata.name + ' [info]: ' + message)
+    log(Me.metadata.name + ' [info ]: ' + message)
 }
 
 function debug(message) {
