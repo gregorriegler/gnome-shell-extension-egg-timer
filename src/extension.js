@@ -51,8 +51,30 @@ let sound
 let indicator = null;
 let timeout;
 
+// -- app --
+function init() {
+    info(`initializing`);
+}
 
-//-- control code --
+function enable() {
+    info(`enabling`);
+
+    indicator = new EggTimerIndicator();
+    eggTimer = new EggTimer(indicator.displayDuration.bind(indicator), finishTimer, new Duration(MIN_TIMER));
+    sound = new Sound();
+    Main.panel.addToStatusArea(`${Me.metadata.name}-indicator`, indicator);
+}
+
+function disable() {
+    info(`disabling`);
+
+    if (indicator !== null) {
+        indicator.destroy();
+        indicator = null;
+    }
+}
+
+//-- control --
 let playing = false;
 
 function togglePlayPause() {
@@ -112,6 +134,7 @@ function pauseTimer(duration) {
     indicator.showPlayButton();
 }
 
+// -- view --
 let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
 
     _init() {
@@ -119,6 +142,20 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
 
         this.add_child(this.createPanelBox());
         this.menu.addMenuItem(this.createMenu());
+    }
+
+    createPanelBox() {
+        this.timeDisplay = new St.Label({
+            text: new Duration(MIN_TIMER).prettyPrint(),
+            y_align: Clutter.ActorAlign.CENTER,
+        });
+        let panelBox = new St.BoxLayout();
+        panelBox.add_actor(new St.Icon({
+            gicon: Gio.icon_new_for_string(`${Me.path}/egg.svg`),
+            style_class: 'system-status-icon'
+        }));
+        panelBox.add_actor(this.timeDisplay);
+        return panelBox;
     }
 
     createMenu() {
@@ -149,20 +186,6 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
         return section;
     }
 
-    createPanelBox() {
-        this.timeDisplay = new St.Label({
-            text: new Duration(MIN_TIMER).prettyPrint(),
-            y_align: Clutter.ActorAlign.CENTER,
-        });
-        let panelBox = new St.BoxLayout();
-        panelBox.add_actor(new St.Icon({
-            gicon: Gio.icon_new_for_string(`${Me.path}/egg.svg`),
-            style_class: 'system-status-icon'
-        }));
-        panelBox.add_actor(this.timeDisplay);
-        return panelBox;
-    }
-
     displayDuration(duration) {
         this.timeDisplay.set_text(duration.prettyPrint());
     }
@@ -189,30 +212,7 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
     }
 }
 
-function init() {
-    info(`initializing`);
-}
-
-function enable() {
-    info(`enabling`);
-
-    indicator = new EggTimerIndicator();
-
-    eggTimer = new EggTimer(indicator.displayDuration.bind(indicator), finishTimer, new Duration(MIN_TIMER));
-    Main.panel.addToStatusArea(`${Me.metadata.name}-indicator`, indicator);
-    sound = new Sound();
-}
-
-function disable() {
-    info(`disabling`);
-
-    if (indicator !== null) {
-        indicator.destroy();
-        indicator = null;
-    }
-}
-
-// compatibility
+// -- compatibility --
 function valueChanged() {
     return parseFloat(Config.PACKAGE_VERSION.substring(0, 4)) > 3.32
         ? 'notify::value'
