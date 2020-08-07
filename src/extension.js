@@ -132,11 +132,11 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
             y_align: Clutter.ActorAlign.CENTER,
         });
         let panelBox = new St.BoxLayout();
-        panelBox.add_actor(new St.Icon({
+        panelBox.add(new St.Icon({
             gicon: Gio.icon_new_for_string(`${Me.path}/egg.svg`),
             style_class: 'system-status-icon'
         }));
-        panelBox.add_actor(this.timeDisplay);
+        panelBox.add(this.timeDisplay);
         return panelBox;
     }
 
