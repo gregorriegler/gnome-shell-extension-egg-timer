@@ -44,6 +44,8 @@ const Mainloop = imports.mainloop;
 const MIN_TIMER = 2;
 const MAX_TIMER = 60;
 
+const createDuration = percentage => Duration.of(MIN_TIMER, MAX_TIMER, percentage);
+
 let eggTimer
 let sound
 let indicator = null;
@@ -75,7 +77,7 @@ function continueTimer() {
 function finishTimer() {
     info('finished timer');
     sound.play();
-    pauseTimer(Duration.of(MIN_TIMER, MAX_TIMER, indicator.timeSlider.value));
+    pauseTimer(createDuration(indicator.timeSlider.value));
     indicator.showPlayButton();
 }
 
@@ -89,6 +91,26 @@ function pauseTimer(duration) {
     }
 
     eggTimer.init(duration)
+    indicator.showPlayButton();
+}
+
+function togglePlayPause() {
+    debug('toggle play/pause');
+
+    if (playing) {
+        pauseTimer();
+        indicator.showPlayButton();
+    } else {
+        startTimer();
+        indicator.showPauseButton();
+    }
+}
+
+function changeDuration(item) {
+    let duration = createDuration(item.value);
+    debugTime('change duration', duration);
+
+    pauseTimer(duration);
 }
 
 let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
@@ -147,20 +169,11 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
     }
 
     sliderMoved(item) {
-        debug(`slider moved ${item.value}`);
-        pauseTimer(Duration.of(MIN_TIMER, MAX_TIMER, item.value));
-        this.showPlayButton();
+        changeDuration(item);
     }
 
     clickPlayPause() {
-        debug('clicked play/pause');
-        if (playing) {
-            pauseTimer();
-            this.showPlayButton();
-        } else {
-            startTimer();
-            this.showPauseButton();
-        }
+        togglePlayPause();
     }
 
     showPauseButton() {
