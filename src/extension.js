@@ -47,10 +47,9 @@ const MAX_TIMER = 3000;
 
 // -- app --
 
-let eggTimer
-let sound
 let indicator = null;
 let controller;
+let clock;
 
 function init() {
     info(`initializing`);
@@ -60,17 +59,16 @@ function enable() {
     info(`enabling`);
 
     indicator = new EggTimerIndicator();
-    eggTimer = new EggTimer(
+    let eggTimer = new EggTimer(
         indicator.displayDuration.bind(indicator),
         new Duration(MIN_TIMER)
     );
     function eggTimerTick() {
         eggTimer.tick(controller.finish.bind(controller));
     }
-    sound = new Sound();
-
+    clock = new Clock(eggTimerTick)
     controller = new Controller(
-        eggTimer, indicator, new Clock(eggTimerTick), sound
+        eggTimer, indicator, clock, new Sound()
     );
 
 
@@ -84,6 +82,8 @@ function disable() {
         indicator.destroy();
         indicator = null;
     }
+
+    clock.stopTicking()
 }
 
 // -- view --
