@@ -44,14 +44,13 @@ const Mainloop = imports.mainloop;
 const MIN_TIMER = 2;
 const MAX_TIMER = 60;
 
-const createDuration = percentage => Duration.of(MIN_TIMER, MAX_TIMER, percentage);
+// -- app --
 
 let eggTimer
 let sound
 let indicator = null;
 let timeout;
 
-// -- app --
 function init() {
     info(`initializing`);
 }
@@ -74,7 +73,7 @@ function disable() {
     }
 }
 
-//-- control --
+// -- control --
 let playing = false;
 
 function togglePlayPause() {
@@ -115,9 +114,9 @@ function finishTimer() {
     indicator.showPlayButton();
 }
 
-function changeDuration(duration) {
+function changeDurationByPercent(percentage) {
+    const duration = createDuration(percentage)
     debugTime('change duration', duration);
-
     pauseTimer(duration);
 }
 
@@ -133,6 +132,8 @@ function pauseTimer(duration) {
     eggTimer.init(duration)
     indicator.showPlayButton();
 }
+
+const createDuration = percentage => Duration.of(MIN_TIMER, MAX_TIMER, percentage);
 
 // -- view --
 let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
@@ -191,7 +192,7 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
     }
 
     sliderMoved(item) {
-        changeDuration(createDuration(item.value));
+        changeDurationByPercent(item.value);
     }
 
     clickPlayPause() {
