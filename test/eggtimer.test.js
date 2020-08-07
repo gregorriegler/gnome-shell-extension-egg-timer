@@ -7,30 +7,30 @@ const EggTimer = require('../src/eggtimer')
 console.log(EggTimer)
 
 describe('EggTimer', function() {
-    let output = [];
-    const viewSpy = function(duration) {
-        output.push(duration.value())
+    let timesRegistered = [];
+    const notifyTimeSpy = function(duration) {
+        timesRegistered.push(duration.value())
     }
 
-    let finish = [];
-    const finishSpy = function() {
-        finish.push(true);
+    let finishesRegistered = 0;
+    const notifyFinishSpy = function() {
+        finishesRegistered++;
     }
 
     let eggTimer;
     beforeEach(() => {
-        eggTimer = new EggTimer(viewSpy, finishSpy, new Duration(2));
+        eggTimer = new EggTimer(notifyTimeSpy, notifyFinishSpy, new Duration(2));
     });
 
     it('views initial timer', function() {
-        expect(output).to.eql([2])
+        expect(timesRegistered).to.eql([2])
     })
 
     it('updates view on tick', function() {
         eggTimer.tick()
 
-        expect(output).to.eql([2, 1])
-        expect(finish).to.eql([])
+        expect(timesRegistered).to.eql([2, 1])
+        expect(finishesRegistered).to.eql([])
         expect(eggTimer.over()).to.equal(false)
     })
 
@@ -38,7 +38,7 @@ describe('EggTimer', function() {
         eggTimer.tick()
         eggTimer.tick()
 
-        expect(output).to.eql([2, 1, 0])
+        expect(timesRegistered).to.eql([2, 1, 0])
     })
 
     it('finishes timer', function() {
@@ -46,7 +46,7 @@ describe('EggTimer', function() {
         eggTimer.tick()
         eggTimer.tick()
 
-        expect(finish).to.eql([true])
+        expect(finishesRegistered).to.equal(1)
         expect(eggTimer.over()).to.equal(true)
     })
 
@@ -56,7 +56,7 @@ describe('EggTimer', function() {
         eggTimer.tick()
         eggTimer.tick()
 
-        expect(finish).to.eql([true])
+        expect(finishesRegistered).to.equal(1)
         expect(eggTimer.over()).to.equal(true)
     })
 
@@ -66,7 +66,7 @@ describe('EggTimer', function() {
         eggTimer.tick()
         eggTimer.tick()
 
-        expect(output).to.eql([2, 1, 0])
+        expect(timesRegistered).to.eql([2, 1, 0])
         expect(eggTimer.over()).to.equal(true)
     })
 
@@ -87,7 +87,7 @@ describe('EggTimer', function() {
     })
 
     afterEach(() => {
-        output = [];
-        finish = [];
+        timesRegistered = [];
+        finishesRegistered = [];
     });
 })
