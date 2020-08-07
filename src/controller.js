@@ -51,4 +51,8 @@ class Controller {
         this.clock.stopTicking();
         this.indicator.showPlayButton();
     }
+
+    destroy() {
+        this.clock.stopTicking();
+    }
 }

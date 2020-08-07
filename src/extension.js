@@ -47,8 +47,6 @@ const Config = imports.misc.config;
 
 let indicator = null;
 let controller;
-let clock;
-
 function init() {
     info(`initializing`);
 }
@@ -64,11 +62,9 @@ function enable() {
     function eggTimerTick() {
         eggTimer.tick(controller.finish.bind(controller));
     }
-    clock = new Clock(eggTimerTick)
     controller = new Controller(
-        eggTimer, indicator, clock, new Sound()
+        eggTimer, indicator, new Clock(eggTimerTick), new Sound()
     );
-
 
     Main.panel.addToStatusArea(`${Me.metadata.name}-indicator`, indicator);
 }
@@ -81,7 +77,7 @@ function disable() {
         indicator = null;
     }
 
-    clock.stopTicking()
+    controller.destroy()
 }
 
 // -- view --
