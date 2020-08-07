@@ -5,7 +5,8 @@
   "main": "src/duration.js",
   "scripts": {
     "test": "mocha",
-    "test:watch": "mocha -R min -w",
+    "test:watch": "mocha -w",
+    "test:watch:min": "mocha -R min -w",
     "install": "gulp install",
     "start": "gulp start"
   },
