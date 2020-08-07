@@ -49,7 +49,7 @@ const MAX_TIMER = 60;
 let eggTimer
 let sound
 let indicator = null;
-let timeout;
+let clock;
 
 function init() {
     info(`initializing`);
@@ -60,6 +60,7 @@ function enable() {
 
     indicator = new EggTimerIndicator();
     eggTimer = new EggTimer(indicator.displayDuration.bind(indicator), finishTimer, new Duration(MIN_TIMER));
+    clock = new Clock(eggTimer);
     sound = new Sound();
     Main.panel.addToStatusArea(`${Me.metadata.name}-indicator`, indicator);
 }
@@ -74,37 +75,51 @@ function disable() {
 }
 
 // -- control --
-let playing = false;
+class Clock {
+
+    constructor(eggTimer) {
+        this.eggTimer = eggTimer
+    }
+
+    startTicking() {
+        this.timeout = Mainloop.timeout_add_seconds(1, () => {
+            this.tick()
+        });
+    }
+
+    tick() {
+        this.eggTimer.tick()
+        if (this.ticking()) {
+            this.startTicking();
+        }
+    }
+
+    stopTicking() {
+        if (this.ticking()) {
+            Mainloop.source_remove(this.timeout);
+            this.timeout = undefined;
+        }
+    }
+
+    ticking() {
+        return this.timeout !== undefined
+    }
+}
 
 function togglePlayPause() {
     debug('toggle play/pause');
 
-    if (playing) {
+    if (clock.ticking()) {
         pauseTimer();
-        indicator.showPlayButton();
     } else {
         startTimer();
-        indicator.showPauseButton();
     }
 }
 
 function startTimer() {
-    info(`start timer, playing: ${playing}`);
-    if (playing === false) {
-        playing = true;
-        continueTimer();
-    }
-}
-
-function continueTimer() {
-    if (playing) {
-        debugTime('continue timer', eggTimer.duration());
-
-        timeout = Mainloop.timeout_add_seconds(1, () => {
-            eggTimer.tick()
-            continueTimer()
-        });
-    }
+    info('start timer');
+    indicator.showPauseButton();
+    clock.startTicking();
 }
 
 function finishTimer() {
@@ -125,11 +140,7 @@ function changeDuration(duration) {
 }
 
 function pauseTimer() {
-    playing = false;
-    if (timeout !== undefined) {
-        Mainloop.source_remove(timeout);
-        timeout = undefined;
-    }
+    clock.stopTicking();
     indicator.showPlayButton();
 }
 
@@ -200,14 +211,14 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
     }
 
     showPauseButton() {
-        if(this.playPauseButton.get_child() !== this.pauseIcon) {
+        if (this.playPauseButton.get_child() !== this.pauseIcon) {
             this.playPauseButton.set_child(this.pauseIcon);
         }
         this.menu.close();
     }
 
     showPlayButton() {
-        if(this.playPauseButton.get_child() !== this.playIcon) {
+        if (this.playPauseButton.get_child() !== this.playIcon) {
             this.playPauseButton.set_child(this.playIcon);
         }
     }
