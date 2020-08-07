@@ -44,8 +44,8 @@ function enable() {
     indicator = new EggTimerIndicator()
     eggTimer = new EggTimer(indicator.displayDuration.bind(indicator), new Duration(0))
     controller = new Controller(eggTimer, indicator)
-    indicator.setTogglePlayPauseHandler(function () {
-        controller.togglePlayPause()
+    indicator.setTogglePlayPauseHandler(function (play) {
+        controller.togglePlayPause(play)
     })
     indicator.setChangeDurationByPercentHandler(function (percentage) {
         controller.changeDurationByPercent(percentage)

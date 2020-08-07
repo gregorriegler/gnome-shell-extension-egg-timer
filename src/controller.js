@@ -18,21 +18,23 @@ class Controller {
             this.eggTimer.tick(this.finish.bind(this))
         })
         this.sound = new Sound()
+        this.loop = false;
 
     }
 
-    togglePlayPause() {
-        debug('toggle play/pause')
+    togglePlayPause(play) {
+        debug(`toggle play/pause ${play}`)
 
-        if (this.clock.ticking()) {
-            this.pause()
-        } else {
+        if (play) {
             this.start()
+        } else {
+            this.pause()
         }
     }
 
     toggleLoop(loop) {
         debug(`toggle loop ${loop}`)
+        this.loop = loop;
     }
 
     start() {
@@ -45,6 +47,9 @@ class Controller {
         info('finish')
         this.sound.play()
         this.changeDurationByPercent(this.indicator.timeSlider.value)
+        if(this.loop) {
+            this.start()
+        }
     }
 
     changeDurationByPercent(percentage) {

@@ -81,7 +81,7 @@ class EggTimerIndicator extends PanelMenu.Button {
     }
 
     clickPlayPause() {
-        this.togglePlayPause()
+        this.togglePlayPause(this.playPauseButton.get_child() === this.playIcon)
     }
 
     sliderMoved(item) {
