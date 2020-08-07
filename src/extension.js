@@ -42,7 +42,7 @@ const Duration = Me.imports.duration.Duration;
 
 const Config = imports.misc.config;
 const MIN_TIMER = 2;
-const MAX_TIMER = 60;
+const MAX_TIMER = 3000;
 
 // -- app --
 
