@@ -55,6 +55,18 @@ let timeout;
 //-- control code --
 let playing = false;
 
+function togglePlayPause() {
+    debug('toggle play/pause');
+
+    if (playing) {
+        pauseTimer();
+        indicator.showPlayButton();
+    } else {
+        startTimer();
+        indicator.showPauseButton();
+    }
+}
+
 function startTimer() {
     info(`start timer, playing: ${playing}`);
     if (playing === false) {
@@ -81,6 +93,12 @@ function finishTimer() {
     indicator.showPlayButton();
 }
 
+function changeDuration(duration) {
+    debugTime('change duration', duration);
+
+    pauseTimer(duration);
+}
+
 function pauseTimer(duration) {
     debugTime('pause timer', duration);
     playing = false;
@@ -92,25 +110,6 @@ function pauseTimer(duration) {
 
     eggTimer.init(duration)
     indicator.showPlayButton();
-}
-
-function togglePlayPause() {
-    debug('toggle play/pause');
-
-    if (playing) {
-        pauseTimer();
-        indicator.showPlayButton();
-    } else {
-        startTimer();
-        indicator.showPauseButton();
-    }
-}
-
-function changeDuration(item) {
-    let duration = createDuration(item.value);
-    debugTime('change duration', duration);
-
-    pauseTimer(duration);
 }
 
 let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
@@ -169,7 +168,7 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
     }
 
     sliderMoved(item) {
-        changeDuration(item);
+        changeDuration(createDuration(item.value));
     }
 
     clickPlayPause() {
