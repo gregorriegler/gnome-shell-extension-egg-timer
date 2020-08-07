@@ -42,8 +42,6 @@ const Sound = Me.imports.sound.Sound;
 const Duration = Me.imports.duration.Duration;
 
 const Config = imports.misc.config;
-const MIN_TIMER = 2;
-const MAX_TIMER = 3000;
 
 // -- app --
 
@@ -61,7 +59,7 @@ function enable() {
     indicator = new EggTimerIndicator();
     let eggTimer = new EggTimer(
         indicator.displayDuration.bind(indicator),
-        new Duration(MIN_TIMER)
+        new Duration(0)
     );
     function eggTimerTick() {
         eggTimer.tick(controller.finish.bind(controller));
@@ -98,7 +96,7 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
 
     createPanelBox() {
         this.timeDisplay = new St.Label({
-            text: new Duration(MIN_TIMER).prettyPrint(),
+            text: new Duration(0).prettyPrint(),
             y_align: Clutter.ActorAlign.CENTER,
         });
         let panelBox = new St.BoxLayout();

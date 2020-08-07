@@ -7,6 +7,7 @@ const MAX_TIMER = 3000;
 class Controller {
 
     constructor(eggTimer, indicator, clock, sound) {
+        eggTimer.init(new Duration(MIN_TIMER))
         this.eggTimer = eggTimer
         this.indicator = indicator
         this.clock = clock
