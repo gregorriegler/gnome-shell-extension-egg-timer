@@ -35,6 +35,7 @@ const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const Slider = imports.ui.slider;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const {debug, info} = Me.imports.log;
 const EggTimer = Me.imports.eggtimer.EggTimer;
 const Sound = Me.imports.sound.Sound;
 const Duration = Me.imports.duration.Duration;
@@ -43,7 +44,6 @@ const Config = imports.misc.config;
 const Mainloop = imports.mainloop;
 const MIN_TIMER = 2;
 const MAX_TIMER = 60;
-const Debug = true;
 
 let eggTimer
 let sound
@@ -205,15 +205,5 @@ function disable() {
     if (indicator !== null) {
         indicator.destroy();
         indicator = null;
-    }
-}
-
-function info(message) {
-    log(Me.metadata.name + ' [info ]: ' + message)
-}
-
-function debug(message) {
-    if (Debug) {
-        log(Me.metadata.name + ' [debug]: ' + message)
     }
 }
