@@ -8,6 +8,7 @@ class EggTimer {
     }
 
     init(duration) {
+        if(duration === undefined) return;
         this._over = false;
         this._duration = duration;
         this.viewCallback(this._duration)

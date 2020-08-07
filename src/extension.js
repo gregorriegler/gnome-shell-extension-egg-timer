@@ -54,30 +54,11 @@ let timeout;
 let playing = false;
 
 function startTimer() {
-    info(`start timer`);
+    info(`start timer, playing: ${playing}`);
     if (playing === false) {
         playing = true;
         continueTimer();
     }
-}
-
-function finishTimer() {
-    info('finished timer');
-    sound.play();
-    pauseTimer(Duration.of(MIN_TIMER, indicator.timeSlider.value));
-    indicator.showPlayButton();
-}
-
-function pauseTimer(duration) {
-    debug(`pauseTimer ${duration.prettyPrint()}`);
-    playing = false;
-
-    if (timeout !== undefined) {
-        Mainloop.source_remove(timeout);
-        timeout = undefined;
-    }
-
-    eggTimer.init(duration)
 }
 
 function continueTimer() {
@@ -89,6 +70,25 @@ function continueTimer() {
             continueTimer()
         });
     }
+}
+
+function finishTimer() {
+    info('finished timer');
+    sound.play();
+    pauseTimer(Duration.of(MIN_TIMER, indicator.timeSlider.value));
+    indicator.showPlayButton();
+}
+
+function pauseTimer(duration) {
+    debug('pauseTimer ' + (duration ? duration.prettyPrint() : ''));
+    playing = false;
+
+    if (timeout !== undefined) {
+        Mainloop.source_remove(timeout);
+        timeout = undefined;
+    }
+
+    eggTimer.init(duration)
 }
 
 let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
@@ -134,7 +134,7 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
 
         this.playButton = new St.Button();
         this.playButton.connect('clicked', this.clickPlayPause.bind(this));
-        this.playButton.add_actor(this.playIcon);
+        this.playButton.set_child(this.playIcon);
 
         let playButtomItem = new PopupMenu.PopupBaseMenuItem();
         playButtomItem.add(this.playButton);
@@ -165,12 +165,14 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
     }
 
     showPauseButton() {
-        this.playButton.add_actor(this.pauseIcon);
+        this.playButton.set_child(this.pauseIcon);
         this.menu.close();
     }
 
     showPlayButton() {
-        this.playButton.add_actor(this.playIcon);
+        if(this.playButton.get_child() !== this.playIcon) {
+            this.playButton.set_child(this.playIcon);
+        }
     }
 }
 
