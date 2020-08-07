@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const Mainloop = imports.mainloop;
+const Mainloop = imports.mainloop
 
 class Clock {
 
@@ -11,20 +11,20 @@ class Clock {
     startTicking() {
         this.timeout = Mainloop.timeout_add_seconds(1, () => {
             this.tick()
-        });
+        })
     }
 
     tick() {
         this.notifyTick()
         if (this.ticking()) {
-            this.startTicking();
+            this.startTicking()
         }
     }
 
     stopTicking() {
         if (this.ticking()) {
-            Mainloop.source_remove(this.timeout);
-            this.timeout = undefined;
+            Mainloop.source_remove(this.timeout)
+            this.timeout = undefined
         }
     }
 

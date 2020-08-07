@@ -1,30 +1,30 @@
-'use strict';
+'use strict'
 
 class EggTimer {
     constructor(notifyTime, duration) {
-        this.notifyTime = notifyTime;
-        this.init(duration);
+        this.notifyTime = notifyTime
+        this.init(duration)
     }
 
     init(duration) {
-        if(duration === undefined) return;
-        this._duration = duration;
+        if(duration === undefined) return
+        this._duration = duration
         this.notifyTime(this._duration)
     }
 
     tick(notifyFinish) {
         if (this._duration.zero()) {
-            return;
+            return
         }
-        this._duration = this._duration.decrement();
-        this.notifyTime(this._duration);
+        this._duration = this._duration.decrement()
+        this.notifyTime(this._duration)
         if (this._duration.zero()) {
-            notifyFinish();
+            notifyFinish()
         }
     }
 
     duration() {
-        return this._duration;
+        return this._duration
     }
 
     over() {

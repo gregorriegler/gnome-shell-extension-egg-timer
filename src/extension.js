@@ -9,7 +9,7 @@
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * but WITHOUT ANY WARRANTY without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
@@ -26,47 +26,36 @@
  * TODO: try a version where the play button is in the top bar
  * TODO: Attempting to add actor of type 'StIcon' to a container of type 'StButton', but the actor has already a parent of type 'StButton'.
  */
-'use strict';
+'use strict'
 
-const Main = imports.ui.main;
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const {info} = Me.imports.log;
-const EggTimerIndicator = Me.imports.indicator.EggTimerIndicator;
-const Controller = Me.imports.controller.Controller;
-const EggTimer = Me.imports.eggtimer.EggTimer;
-const Duration = Me.imports.duration.Duration;
+const Main = imports.ui.main
+const Me = imports.misc.extensionUtils.getCurrentExtension()
+const {info} = Me.imports.log
+const EggTimerIndicator = Me.imports.indicator.EggTimerIndicator
+const Controller = Me.imports.controller.Controller
+const EggTimer = Me.imports.eggtimer.EggTimer
+const Duration = Me.imports.duration.Duration
 
 function init() {
-    info('initializing');
+    info('initializing')
 }
 
 function enable() {
-    info('enabling');
+    info('enabling')
 
-    let controller;
-    let indicator = new EggTimerIndicator();
-    let eggTimer = new EggTimer(
-        indicator.displayDuration.bind(indicator),
-        new Duration(0)
-    );
-    controller = new Controller(
-        eggTimer, indicator
-    );
-
-    let togglePlayPause = function () {
+    const indicator = new EggTimerIndicator()
+    const eggTimer = new EggTimer(indicator.displayDuration.bind(indicator), new Duration(0))
+    const controller = new Controller(eggTimer, indicator)
+    indicator.setTogglePlayPauseHandler(function () {
         controller.togglePlayPause()
-    }
-
-    let changeDurationByPercent = function (percentage) {
+    })
+    indicator.setChangeDurationByPercentHandler(function (percentage) {
         controller.changeDurationByPercent(percentage)
-    }
-
-    indicator.setHandlers(togglePlayPause, changeDurationByPercent)
-
-    Main.panel.addToStatusArea(`${Me.metadata.name}-indicator`, indicator);
+    })
+    Main.panel.addToStatusArea(`${Me.metadata.name}-indicator`, indicator)
 }
 
 function disable() {
-    info(`disabling`);
+    info(`disabling`)
     controller.destroy()
 }
