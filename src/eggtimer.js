@@ -1,27 +1,32 @@
 'use strict';
 
 class EggTimer {
-    constructor(view, finish, duration) {
-        this._view = view;
-        this._finish = finish;
+    constructor(viewCallback, finishCallback, duration) {
+        this.viewCallback = viewCallback;
+        this.finishCallback = finishCallback;
         this.init(duration);
     }
 
     init(duration) {
-        this._duration = duration;
-        this._view(this._duration.value())
+        this._over = false;
+        this.duration = duration;
+        this.viewCallback(this.duration.value())
     }
 
     tick() {
-        if(!this._duration.isOver()) {
-            this._duration = this._duration.decrement();
-            this._view(this._duration.value());
+        if (this.duration.isOver()) {
+            if (!this._over) {
+                this.finishCallback();
+                this._over = true;
+            }
+        } else {
+            this.duration = this.duration.decrement();
+            this.viewCallback(this.duration.value());
         }
+    }
 
-        if (this._duration.isOver()) {
-            this._finish();
-            return
-        }
+    over() {
+        return this._over;
     }
 }
 

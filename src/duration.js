@@ -26,7 +26,7 @@ class Duration {
     }
 
     decrement() {
-        return new Duration(this.duration-1, 0)
+        return new Duration(this.duration - 1, 0)
     }
 
     prettyPrint() {

@@ -12,14 +12,14 @@ describe('EggTimer', function() {
         output.push(timer)
     }
 
-    let finish = false;
+    let finish = [];
     const finishSpy = function() {
-        finish = true;
+        finish.push(true);
     }
 
     let eggTimer;
     beforeEach(() => {
-        eggTimer = new EggTimer(viewSpy, finishSpy, new Duration(2, 0));
+        eggTimer = new EggTimer(viewSpy, finishSpy, new Duration(2));
     });
 
     it('views initial timer', function() {
@@ -28,31 +28,59 @@ describe('EggTimer', function() {
 
     it('updates view on tick', function() {
         eggTimer.tick()
+
         expect(output).to.eql([2, 1])
-        expect(finish).to.equal(false)
+        expect(finish).to.eql([])
+        expect(eggTimer.over()).to.equal(false)
     })
 
     it('updates view on all ticks', function() {
         eggTimer.tick()
         eggTimer.tick()
+
         expect(output).to.eql([2, 1, 0])
     })
 
     it('finishes timer', function() {
         eggTimer.tick()
         eggTimer.tick()
-        expect(finish).to.equal(true)
+        eggTimer.tick()
+
+        expect(finish).to.eql([true])
+        expect(eggTimer.over()).to.equal(true)
+    })
+
+    it('only finishes once', function() {
+        eggTimer.tick()
+        eggTimer.tick()
+        eggTimer.tick()
+        eggTimer.tick()
+
+        expect(finish).to.eql([true])
+        expect(eggTimer.over()).to.equal(true)
     })
 
     it('does not overcount', function() {
         eggTimer.tick()
         eggTimer.tick()
         eggTimer.tick()
+        eggTimer.tick()
+
         expect(output).to.eql([2, 1, 0])
+        expect(eggTimer.over()).to.equal(true)
+    })
+
+    it('resets with init', function() {
+        eggTimer.tick()
+        eggTimer.tick()
+        eggTimer.tick()
+        eggTimer.init(new Duration(2))
+
+        expect(eggTimer.over()).to.equal(false)
     })
 
     afterEach(() => {
         output = [];
-        finish = false;
+        finish = [];
     });
 })

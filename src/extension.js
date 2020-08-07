@@ -25,7 +25,6 @@
  * TODO: loop button for endless timer
  * TODO: name, manifest and so on
  * TODO: try a version where the play button is in the top bar
- * TODO: 00:00 not shown
  * TODO: Attempting to add actor of type 'StIcon' to a container of type 'StButton', but the actor has already a parent of type 'StButton'.
  */
 'use strict';
