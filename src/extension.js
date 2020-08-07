@@ -35,12 +35,12 @@ const PopupMenu = imports.ui.popupMenu;
 const Slider = imports.ui.slider;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const {debug, debugTime, info} = Me.imports.log;
+const Clock = Me.imports.clock.Clock;
 const EggTimer = Me.imports.eggtimer.EggTimer;
 const Sound = Me.imports.sound.Sound;
 const Duration = Me.imports.duration.Duration;
 
 const Config = imports.misc.config;
-const Mainloop = imports.mainloop;
 const MIN_TIMER = 2;
 const MAX_TIMER = 60;
 
@@ -75,36 +75,6 @@ function disable() {
 }
 
 // -- control --
-class Clock {
-
-    constructor(eggTimer) {
-        this.eggTimer = eggTimer
-    }
-
-    startTicking() {
-        this.timeout = Mainloop.timeout_add_seconds(1, () => {
-            this.tick()
-        });
-    }
-
-    tick() {
-        this.eggTimer.tick()
-        if (this.ticking()) {
-            this.startTicking();
-        }
-    }
-
-    stopTicking() {
-        if (this.ticking()) {
-            Mainloop.source_remove(this.timeout);
-            this.timeout = undefined;
-        }
-    }
-
-    ticking() {
-        return this.timeout !== undefined
-    }
-}
 
 function togglePlayPause() {
     debug('toggle play/pause');
