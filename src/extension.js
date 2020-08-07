@@ -44,6 +44,48 @@ const Config = imports.misc.config;
 const MIN_TIMER = 2;
 const MAX_TIMER = 3000;
 
+// -- control --
+class Controller {
+
+    togglePlayPause() {
+        debug('toggle play/pause');
+
+        if (clock.ticking()) {
+            this.pause();
+        } else {
+            this.start();
+        }
+    }
+
+    start() {
+        info('start');
+        indicator.showPauseButton();
+        clock.startTicking();
+    }
+
+    finish() {
+        info('finish');
+        sound.play();
+        this.changeDurationByPercent(indicator.timeSlider.value);
+    }
+
+    changeDurationByPercent(percentage) {
+        this.changeDuration(Duration.of(MIN_TIMER, MAX_TIMER, percentage));
+    }
+
+    changeDuration(duration) {
+        debugTime('change duration', duration);
+        eggTimer.init(duration)
+        this.pause();
+    }
+
+    pause() {
+        clock.stopTicking();
+        indicator.showPlayButton();
+    }
+}
+let controller = new Controller();
+
 // -- app --
 
 let eggTimer
@@ -59,7 +101,11 @@ function enable() {
     info(`enabling`);
 
     indicator = new EggTimerIndicator();
-    eggTimer = new EggTimer(indicator.displayDuration.bind(indicator), finish, new Duration(MIN_TIMER));
+    eggTimer = new EggTimer(
+        indicator.displayDuration.bind(indicator),
+        controller.finish.bind(controller),
+        new Duration(MIN_TIMER)
+    );
     clock = new Clock(eggTimer);
     sound = new Sound();
     Main.panel.addToStatusArea(`${Me.metadata.name}-indicator`, indicator);
@@ -73,47 +119,6 @@ function disable() {
         indicator = null;
     }
 }
-
-// -- control --
-
-function togglePlayPause() {
-    debug('toggle play/pause');
-
-    if (clock.ticking()) {
-        pause();
-    } else {
-        start();
-    }
-}
-
-function start() {
-    info('start');
-    indicator.showPauseButton();
-    clock.startTicking();
-}
-
-function finish() {
-    info('finish');
-    sound.play();
-    changeDurationByPercent(indicator.timeSlider.value);
-}
-
-function changeDurationByPercent(percentage) {
-    changeDuration(createDuration(percentage));
-}
-
-function changeDuration(duration) {
-    debugTime('change duration', duration);
-    eggTimer.init(duration)
-    pause();
-}
-
-function pause() {
-    clock.stopTicking();
-    indicator.showPlayButton();
-}
-
-const createDuration = percentage => Duration.of(MIN_TIMER, MAX_TIMER, percentage);
 
 // -- view --
 let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
@@ -172,11 +177,11 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
     }
 
     sliderMoved(item) {
-        changeDurationByPercent(item.value);
+        controller.changeDurationByPercent(item.value);
     }
 
     clickPlayPause() {
-        togglePlayPause();
+        controller.togglePlayPause();
     }
 
     showPauseButton() {
