@@ -10,3 +10,9 @@ const debug = message => {
         log(Me.metadata.name + ' [debug]: ' + message)
     }
 };
+
+const debugTime = (message, time) => {
+    if (Debug) {
+        log(Me.metadata.name + ' [debug]: ' + message + (time ? ' ' + time.prettyPrint() : ''))
+    }
+};

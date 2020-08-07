@@ -34,7 +34,7 @@ const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const Slider = imports.ui.slider;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const {debug, info} = Me.imports.log;
+const {debug, debugTime, info} = Me.imports.log;
 const EggTimer = Me.imports.eggtimer.EggTimer;
 const Sound = Me.imports.sound.Sound;
 const Duration = Me.imports.duration.Duration;
@@ -63,10 +63,10 @@ function startTimer() {
 
 function continueTimer() {
     if (playing) {
-        debug(`continue timer`);
+        debugTime('continue timer', eggTimer.duration());
 
         timeout = Mainloop.timeout_add_seconds(1, () => {
-            eggTimer.tick();
+            eggTimer.tick()
             continueTimer()
         });
     }
@@ -80,7 +80,7 @@ function finishTimer() {
 }
 
 function pauseTimer(duration) {
-    debug('pauseTimer ' + (duration ? duration.prettyPrint() : ''));
+    debugTime('pause timer', duration);
     playing = false;
 
     if (timeout !== undefined) {
@@ -96,33 +96,20 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
     _init() {
         super._init(0.0, `${Me.metadata.name} Indicator`, false);
 
-        this.timeDisplay = new St.Label({
-            text: new Duration(MIN_TIMER).prettyPrint(),
-            y_align: Clutter.ActorAlign.CENTER,
-        });
+        this.add_child(this.createPanelBox());
+        this.menu.addMenuItem(this.createMenu());
+    }
 
-        let panelBox = new St.BoxLayout();
-        panelBox.add_actor(new St.Icon({
-            gicon: Gio.icon_new_for_string(`${Me.path}/egg.svg`),
-            style_class: 'system-status-icon'
-        }));
-        panelBox.add_actor(this.timeDisplay);
-        this.add_child(panelBox);
-
-        let section = new PopupMenu.PopupMenuSection();
-        this.menu.addMenuItem(section);
-
+    createMenu() {
         let sliderItem = new PopupMenu.PopupBaseMenuItem();
         this.timeSlider = new Slider.Slider(0);
-        this.timeSlider.connect(parseFloat(Config.PACKAGE_VERSION.substring(0, 4)) > 3.32 ? 'notify::value' : 'value-changed', this.sliderMoved.bind(this));
-
+        this.timeSlider.connect(valueChanged(), this.sliderMoved.bind(this));
         sliderItem.add(this.timeSlider);
 
         this.playIcon = new St.Icon({
             gicon: new Gio.ThemedIcon({name: 'media-playback-start'}),
             style_class: 'system-status-icon'
         });
-
         this.pauseIcon = new St.Icon({
             gicon: new Gio.ThemedIcon({name: 'media-playback-pause'}),
             style_class: 'system-status-icon'
@@ -135,8 +122,24 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
         let playButtomItem = new PopupMenu.PopupBaseMenuItem();
         playButtomItem.add(this.playButton);
 
+        let section = new PopupMenu.PopupMenuSection();
         section.addMenuItem(sliderItem);
         section.addMenuItem(playButtomItem);
+        return section;
+    }
+
+    createPanelBox() {
+        this.timeDisplay = new St.Label({
+            text: new Duration(MIN_TIMER).prettyPrint(),
+            y_align: Clutter.ActorAlign.CENTER,
+        });
+        let panelBox = new St.BoxLayout();
+        panelBox.add_actor(new St.Icon({
+            gicon: Gio.icon_new_for_string(`${Me.path}/egg.svg`),
+            style_class: 'system-status-icon'
+        }));
+        panelBox.add_actor(this.timeDisplay);
+        return panelBox;
     }
 
     displayDuration(duration) {
@@ -204,4 +207,11 @@ function disable() {
         indicator.destroy();
         indicator = null;
     }
+}
+
+// compatibility
+function valueChanged() {
+    return parseFloat(Config.PACKAGE_VERSION.substring(0, 4)) > 3.32
+        ? 'notify::value'
+        : 'value-changed';
 }
