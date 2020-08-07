@@ -18,13 +18,8 @@
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  *
- * TODO: refactor ui
- * TODO: egg timer decides when to start and when to stop ticks
- * TODO: on click play close menu
  * TODO: loop button for endless timer
  * TODO: name, manifest and so on
- * TODO: try a version where the play button is in the top bar
- * TODO: Attempting to add actor of type 'StIcon' to a container of type 'StButton', but the actor has already a parent of type 'StButton'.
  */
 'use strict'
 
@@ -36,16 +31,19 @@ const Controller = Me.imports.controller.Controller
 const EggTimer = Me.imports.eggtimer.EggTimer
 const Duration = Me.imports.duration.Duration
 
+let controller
+let indicator
+let eggTimer
+
 function init() {
     info('initializing')
 }
 
 function enable() {
     info('enabling')
-
-    const indicator = new EggTimerIndicator()
-    const eggTimer = new EggTimer(indicator.displayDuration.bind(indicator), new Duration(0))
-    const controller = new Controller(eggTimer, indicator)
+    indicator = new EggTimerIndicator()
+    eggTimer = new EggTimer(indicator.displayDuration.bind(indicator), new Duration(0))
+    controller = new Controller(eggTimer, indicator)
     indicator.setTogglePlayPauseHandler(function () {
         controller.togglePlayPause()
     })
@@ -58,4 +56,5 @@ function enable() {
 function disable() {
     info(`disabling`)
     controller.destroy()
+    indicator.destroy()
 }

@@ -60,6 +60,5 @@ class Controller {
 
     destroy() {
         this.clock.stopTicking()
-        this.indicator.destroy()
     }
 }
