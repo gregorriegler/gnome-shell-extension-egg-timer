@@ -4,8 +4,8 @@ const Mainloop = imports.mainloop;
 
 class Clock {
 
-    constructor(eggTimer) {
-        this.eggTimer = eggTimer
+    constructor(notifyTick) {
+        this.notifyTick = notifyTick
     }
 
     startTicking() {
@@ -15,7 +15,7 @@ class Clock {
     }
 
     tick() {
-        this.eggTimer.tick()
+        this.notifyTick()
         if (this.ticking()) {
             this.startTicking();
         }

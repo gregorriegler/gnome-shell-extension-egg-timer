@@ -106,7 +106,10 @@ function enable() {
         controller.finish.bind(controller),
         new Duration(MIN_TIMER)
     );
-    clock = new Clock(eggTimer);
+    function eggTimerTick() {
+        eggTimer.tick();
+    }
+    clock = new Clock(eggTimerTick);
     sound = new Sound();
     Main.panel.addToStatusArea(`${Me.metadata.name}-indicator`, indicator);
 }
