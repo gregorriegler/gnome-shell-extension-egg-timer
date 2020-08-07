@@ -136,12 +136,12 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
             style_class: 'system-status-icon'
         });
 
-        this.playButton = new St.Button();
-        this.playButton.connect('clicked', this.clickPlayPause.bind(this));
-        this.playButton.set_child(this.playIcon);
+        this.playPauseButton = new St.Button();
+        this.playPauseButton.connect('clicked', this.clickPlayPause.bind(this));
+        this.playPauseButton.set_child(this.playIcon);
 
         let playButtomItem = new PopupMenu.PopupBaseMenuItem();
-        playButtomItem.add(this.playButton);
+        playButtomItem.add(this.playPauseButton);
 
         let section = new PopupMenu.PopupMenuSection();
         section.addMenuItem(sliderItem);
@@ -176,22 +176,17 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
     }
 
     showPauseButton() {
-        this.playButton.set_child(this.pauseIcon);
+        if(this.playPauseButton.get_child() !== this.pauseIcon) {
+            this.playPauseButton.set_child(this.pauseIcon);
+        }
         this.menu.close();
     }
 
     showPlayButton() {
-        if(this.playButton.get_child() !== this.playIcon) {
-            this.playButton.set_child(this.playIcon);
+        if(this.playPauseButton.get_child() !== this.playIcon) {
+            this.playPauseButton.set_child(this.playIcon);
         }
     }
-}
-
-if (parseInt(Config.PACKAGE_VERSION.split('.')[1]) > 30) {
-    EggTimerIndicator = GObject.registerClass(
-        {GTypeName: 'EggTimerIndicator'},
-        EggTimerIndicator
-    );
 }
 
 function init() {
@@ -226,4 +221,11 @@ function valueChanged() {
     return parseFloat(Config.PACKAGE_VERSION.substring(0, 4)) > 3.32
         ? 'notify::value'
         : 'value-changed';
+}
+
+if (parseInt(Config.PACKAGE_VERSION.split('.')[1]) > 30) {
+    EggTimerIndicator = GObject.registerClass(
+        {GTypeName: 'EggTimerIndicator'},
+        EggTimerIndicator
+    );
 }
