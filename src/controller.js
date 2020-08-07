@@ -2,20 +2,24 @@
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Duration = Me.imports.duration.Duration;
+const Clock = Me.imports.clock.Clock;
+const Sound = Me.imports.sound.Sound;
 const {debug, debugTime, info} = Me.imports.log;
 const MIN_TIMER = 2;
 const MAX_TIMER = 3000;
 
 class Controller {
 
-    constructor(eggTimer, indicator, clock, sound) {
+    constructor(eggTimer, indicator, clock) {
         eggTimer.init(new Duration(MIN_TIMER))
         this.eggTimer = eggTimer
         this.indicator = indicator
-        this.clock = clock
-        this.sound = sound
-    }
+        this.clock = new Clock(() => {
+            this.eggTimer.tick(this.finish.bind(this))
+        })
+        this.sound = new Sound()
 
+    }
 
     togglePlayPause() {
         debug('toggle play/pause');

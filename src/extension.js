@@ -33,14 +33,9 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const {info} = Me.imports.log;
 const EggTimerIndicator = Me.imports.indicator.EggTimerIndicator;
 const Controller = Me.imports.controller.Controller;
-const Clock = Me.imports.clock.Clock;
 const EggTimer = Me.imports.eggtimer.EggTimer;
-const Sound = Me.imports.sound.Sound;
 const Duration = Me.imports.duration.Duration;
 
-// -- app --
-
-let controller;
 function init() {
     info('initializing');
 }
@@ -48,16 +43,14 @@ function init() {
 function enable() {
     info('enabling');
 
+    let controller;
     let indicator = new EggTimerIndicator();
     let eggTimer = new EggTimer(
         indicator.displayDuration.bind(indicator),
         new Duration(0)
     );
-    function eggTimerTick() {
-        eggTimer.tick(controller.finish.bind(controller));
-    }
     controller = new Controller(
-        eggTimer, indicator, new Clock(eggTimerTick), new Sound()
+        eggTimer, indicator
     );
 
     let togglePlayPause = function () {
