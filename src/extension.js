@@ -103,11 +103,10 @@ function enable() {
     indicator = new EggTimerIndicator();
     eggTimer = new EggTimer(
         indicator.displayDuration.bind(indicator),
-        controller.finish.bind(controller),
         new Duration(MIN_TIMER)
     );
     function eggTimerTick() {
-        eggTimer.tick();
+        eggTimer.tick(controller.finish.bind(controller));
     }
     clock = new Clock(eggTimerTick);
     sound = new Sound();
