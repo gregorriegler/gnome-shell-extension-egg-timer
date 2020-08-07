@@ -42,6 +42,7 @@ const Duration = Me.imports.duration.Duration;
 const Config = imports.misc.config;
 const Mainloop = imports.mainloop;
 const MIN_TIMER = 2;
+const MAX_TIMER = 60;
 const Debug = true;
 
 let eggTimer
@@ -75,7 +76,7 @@ function continueTimer() {
 function finishTimer() {
     info('finished timer');
     sound.play();
-    pauseTimer(Duration.of(MIN_TIMER, indicator.timeSlider.value));
+    pauseTimer(Duration.of(MIN_TIMER, MAX_TIMER, indicator.timeSlider.value));
     indicator.showPlayButton();
 }
 
@@ -108,9 +109,7 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
         let panelBox = new St.BoxLayout();
         panelBox.add_actor(eggIcon);
         panelBox.add_actor(this.timeDisplay);
-
         this.add_child(panelBox);
-
 
         let section = new PopupMenu.PopupMenuSection();
         this.menu.addMenuItem(section);
@@ -120,7 +119,6 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
         this.timeSlider.connect(parseFloat(Config.PACKAGE_VERSION.substring(0, 4)) > 3.32 ? 'notify::value' : 'value-changed', this.sliderMoved.bind(this));
 
         sliderItem.add(this.timeSlider);
-
 
         this.playIcon = new St.Icon({
             gicon: new Gio.ThemedIcon({name: 'media-playback-start'}),
@@ -149,7 +147,7 @@ let EggTimerIndicator = class EggTimerIndicator extends PanelMenu.Button {
 
     sliderMoved(item) {
         debug(`slider moved ${item.value}`);
-        pauseTimer(Duration.of(MIN_TIMER, item.value));
+        pauseTimer(Duration.of(MIN_TIMER, MAX_TIMER, item.value));
         this.showPlayButton();
     }
 

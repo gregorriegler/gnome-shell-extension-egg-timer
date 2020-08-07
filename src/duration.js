@@ -3,18 +3,11 @@
 class Duration {
 
     constructor(duration) {
-        this.duration = duration;
+        this.duration = duration
     }
 
-    static of(min, percentage) {
-        if (percentage !== undefined) {
-            let duration = Math.floor(percentage * 60) * 60;
-            if (duration < min) {
-                duration = min;
-            }
-            return new Duration(duration);
-        }
-        return new Duration(min);
+    static of(min, max, percentage) {
+        return new Duration((max - min) * percentage + min)
     }
 
     value() {
@@ -30,11 +23,11 @@ class Duration {
     }
 
     prettyPrint() {
-        let minutes = parseInt(this.duration / 60, 10);
-        let seconds = parseInt(this.duration % 60, 10);
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-        return minutes + ":" + seconds;
+        let minutes = parseInt(this.duration / 60, 10)
+        let seconds = parseInt(this.duration % 60, 10)
+        minutes = minutes < 10 ? "0" + minutes : minutes
+        seconds = seconds < 10 ? "0" + seconds : seconds
+        return minutes + ":" + seconds
     }
 }
 

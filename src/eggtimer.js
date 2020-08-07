@@ -1,9 +1,9 @@
 'use strict';
 
 class EggTimer {
-    constructor(viewCallback, finishCallback, duration) {
-        this.viewCallback = viewCallback;
-        this.finishCallback = finishCallback;
+    constructor(notifyTime, notifyFinish, duration) {
+        this.notifyTime = notifyTime;
+        this.notifyFinish = notifyFinish;
         this.init(duration);
     }
 
@@ -11,19 +11,19 @@ class EggTimer {
         if(duration === undefined) return;
         this._over = false;
         this._duration = duration;
-        this.viewCallback(this._duration)
+        this.notifyTime(this._duration)
     }
 
     tick() {
         if (this._duration.isOver()) {
             if (!this._over) {
-                this.finishCallback();
+                this.notifyFinish();
                 this._over = true;
             }
         } else {
             this._over = false;
             this._duration = this._duration.decrement();
-            this.viewCallback(this._duration);
+            this.notifyTime(this._duration);
         }
     }
 
