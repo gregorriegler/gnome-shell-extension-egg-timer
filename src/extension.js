@@ -47,10 +47,18 @@ const MAX_TIMER = 3000;
 // -- control --
 class Controller {
 
+    constructor(eggTimer, indicator, clock, sound) {
+        this.eggTimer = eggTimer
+        this.indicator = indicator
+        this.clock = clock
+        this.sound = sound
+    }
+
+
     togglePlayPause() {
         debug('toggle play/pause');
 
-        if (clock.ticking()) {
+        if (this.clock.ticking()) {
             this.pause();
         } else {
             this.start();
@@ -59,14 +67,14 @@ class Controller {
 
     start() {
         info('start');
-        indicator.showPauseButton();
-        clock.startTicking();
+        this.indicator.showPauseButton();
+        this.clock.startTicking();
     }
 
     finish() {
         info('finish');
-        sound.play();
-        this.changeDurationByPercent(indicator.timeSlider.value);
+        this.sound.play();
+        this.changeDurationByPercent(this.indicator.timeSlider.value);
     }
 
     changeDurationByPercent(percentage) {
@@ -75,16 +83,15 @@ class Controller {
 
     changeDuration(duration) {
         debugTime('change duration', duration);
-        eggTimer.init(duration)
+        this.eggTimer.init(duration)
         this.pause();
     }
 
     pause() {
-        clock.stopTicking();
-        indicator.showPlayButton();
+        this.clock.stopTicking();
+        this.indicator.showPlayButton();
     }
 }
-let controller = new Controller();
 
 // -- app --
 
@@ -92,6 +99,7 @@ let eggTimer
 let sound
 let indicator = null;
 let clock;
+let controller;
 
 function init() {
     info(`initializing`);
@@ -110,6 +118,12 @@ function enable() {
     }
     clock = new Clock(eggTimerTick);
     sound = new Sound();
+
+    controller = new Controller(
+        eggTimer, indicator, clock, sound
+    );
+
+
     Main.panel.addToStatusArea(`${Me.metadata.name}-indicator`, indicator);
 }
 
