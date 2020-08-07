@@ -59,7 +59,7 @@ function enable() {
     info(`enabling`);
 
     indicator = new EggTimerIndicator();
-    eggTimer = new EggTimer(indicator.displayDuration.bind(indicator), finishTimer, new Duration(MIN_TIMER));
+    eggTimer = new EggTimer(indicator.displayDuration.bind(indicator), finish, new Duration(MIN_TIMER));
     clock = new Clock(eggTimer);
     sound = new Sound();
     Main.panel.addToStatusArea(`${Me.metadata.name}-indicator`, indicator);
@@ -80,22 +80,21 @@ function togglePlayPause() {
     debug('toggle play/pause');
 
     if (clock.ticking()) {
-        pauseTimer();
+        pause();
     } else {
-        startTimer();
+        start();
     }
 }
 
-function startTimer() {
-    info('start timer');
+function start() {
+    info('start');
     indicator.showPauseButton();
     clock.startTicking();
 }
 
-function finishTimer() {
-    info('finished timer');
+function finish() {
+    info('finish');
     sound.play();
-    indicator.showPlayButton();
     changeDurationByPercent(indicator.timeSlider.value);
 }
 
@@ -106,10 +105,10 @@ function changeDurationByPercent(percentage) {
 function changeDuration(duration) {
     debugTime('change duration', duration);
     eggTimer.init(duration)
-    pauseTimer();
+    pause();
 }
 
-function pauseTimer() {
+function pause() {
     clock.stopTicking();
     indicator.showPlayButton();
 }
