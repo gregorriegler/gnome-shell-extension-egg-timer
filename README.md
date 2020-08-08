@@ -18,6 +18,12 @@ npm run install
 # Install Tested on Ubuntu 20.04
 ```
 
+## Install via zip file
+Just download the latest egg-timer@gregorriegler.com.zip from the release page:
+https://github.com/gregorriegler/gnome-shell-extension-egg-timer/releases/
+
+and extract it to `~/.local/share/gnome-shell/extensions`
+
 ## Restart during development
 ```
 npm run start
