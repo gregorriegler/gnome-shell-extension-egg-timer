@@ -6,6 +6,7 @@ class Clock {
 
     constructor(notifyTick) {
         this.notifyTick = notifyTick
+        this.startTicking()
     }
 
     startTicking() {

@@ -14,9 +14,6 @@ class Controller {
         eggTimer.init(new Duration(MIN_TIMER))
         this.eggTimer = eggTimer
         this.indicator = indicator
-        this.clock = new Clock(() => {
-            this.eggTimer.tick(this.finish.bind(this))
-        })
         this.sound = new Sound()
         this.loop = false;
 
@@ -40,7 +37,9 @@ class Controller {
     start() {
         info('start')
         this.indicator.showPauseButton()
-        this.clock.startTicking()
+        this.clock = new Clock(() => {
+            this.eggTimer.tick(this.finish.bind(this))
+        })
     }
 
     finish() {
@@ -63,11 +62,17 @@ class Controller {
     }
 
     pause() {
-        this.clock.stopTicking()
+        this.stopTicking();
         this.indicator.showPlayButton()
     }
 
     destroy() {
-        this.clock.stopTicking()
+        this.stopTicking();
+    }
+
+    stopTicking() {
+        if (this.clock) {
+            this.clock.stopTicking()
+        }
     }
 }
