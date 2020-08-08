@@ -1,4 +1,6 @@
 # Egg Timer for Gnome
+[![Build Status](https://travis-ci.com/gregorriegler/gnome-shell-extension-egg-timer.svg?branch=master)](https://travis-ci.com/gregorriegler/gnome-shell-extension-egg-timer)
+
 I needed a very simple Egg Timer for Gnome.
 The existing timer extensions did not work on Gnome 3.36.x so i had to write my own.
 
