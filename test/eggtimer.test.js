@@ -1,5 +1,4 @@
 'use strict'
-const {describe, it, beforeEach, afterEach} = require("mocha")
 const expect = require('chai').expect
 const Duration = require('../src/duration')
 const EggTimer = require('../src/eggtimer')

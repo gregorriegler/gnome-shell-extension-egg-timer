@@ -8,15 +8,19 @@
     "test:watch": "mocha -w",
     "test:watch:min": "mocha -R min -w",
     "install": "gulp install",
-    "start": "gulp start"
+    "start": "gulp start",
+    "dist": "gulp dist"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "chai": "^4.2.0",
+    "fs-extra": "^9.0.1",
     "gulp": "^4.0.2",
+    "gulp-mocha": "^7.0.2",
     "gulp-modify-file": "^1.0.1",
+    "gulp-zip": "^5.0.2",
     "mocha": "^8.1.1"
   }
 }
