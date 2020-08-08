@@ -20,7 +20,7 @@ npm install
 ```
 
 ## Install via zip file
-Just download the latest [egg-timer@gregorriegler.com.zip](https://github.com/gregorriegler/gnome-shell-extension-egg-timer/releases/download/v0.2-beta/egg-timer@gregorriegler.com.zip) from the [release](https://github.com/gregorriegler/gnome-shell-extension-egg-timer/releases/) page.
+Just download the latest [egg-timer@gregorriegler.com.zip](https://github.com/gregorriegler/gnome-shell-extension-egg-timer/releases/download/v0.2-beta/egg-timer@gregorriegler.com.zip) from the [release](https://github.com/gregorriegler/gnome-shell-extension-egg-timer/releases/) page
 
 and extract it to `~/.local/share/gnome-shell/extensions`
 
