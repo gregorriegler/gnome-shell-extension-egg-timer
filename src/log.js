@@ -1,7 +1,7 @@
 'use strict'
 
 const Me = imports.misc.extensionUtils.getCurrentExtension()
-const Debug = true
+const Debug = false
 
 const info = message => {
     log(Me.metadata.name + ' [info ]: ' + message)
