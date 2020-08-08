@@ -3,6 +3,7 @@
 
 I needed a very simple Egg Timer for Gnome.
 The existing timer extensions did not work on Gnome 3.36.x so i had to write my own.
+
 ![Egg Timer](egg-timer.png)
 
 Tested on Ubuntu 20.04
