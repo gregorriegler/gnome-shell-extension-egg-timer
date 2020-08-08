@@ -33,4 +33,6 @@ npm run test:watch:min
 
 ## Show log
 
-`journalctl -f -o cat /usr/bin/gnome-shell | grep 'egg-timer' -A7`
+```
+journalctl -f -o cat /usr/bin/gnome-shell | grep 'egg-timer' -A7
+```
