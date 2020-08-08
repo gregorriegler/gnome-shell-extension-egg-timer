@@ -1,8 +1,7 @@
 {
-  "name": "egg-timer",
+  "name": "gnome-shell-extension-egg-timer",
   "version": "1.0.0",
   "description": "",
-  "main": "src/duration.js",
   "scripts": {
     "test": "mocha",
     "build": "gulp build",

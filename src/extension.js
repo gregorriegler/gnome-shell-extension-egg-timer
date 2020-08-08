@@ -51,7 +51,7 @@ function enable() {
     indicator.setToggleLoopHandler(function (loop) {
         controller.toggleLoop(loop)
     })
-    Main.panel.addToStatusArea(`${Me.metadata.name}-indicator`, indicator)
+    Main.panel.addToStatusArea(`egg-time-indicator`, indicator)
 }
 
 function disable() {
