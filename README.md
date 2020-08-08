@@ -3,6 +3,7 @@ I needed a very simple Egg Timer for Gnome.
 The existing timer extensions did not work on Gnome 3.36.x so i had to write my own.
 
 Icons made by Freepik <http://www.freepik.com/> from Flaticon <https://www.flaticon.com/>
+
 Sound from Mobtimer <https://github.com/zoeesilcock/mobtimer-react/blob/master/public/audio/music_box.wav>
 
 Tested on Ubuntu 20.04 
