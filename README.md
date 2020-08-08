@@ -16,7 +16,6 @@ Tested on Ubuntu 20.04
 git clone git@github.com:gregorriegler/gnome-shell-extension-egg-timer.git
 cd gnome-shell-extension-egg-timer
 npm install
-npm run install
 # Install Tested on Ubuntu 20.04
 ```
 
