@@ -16,7 +16,11 @@ describe('Duration', () => {
     })
 
     it('takes percentages', () => {
-        expect(Duration.of(0, 60,.5).value()).to.equal(30)
+        expect(Duration.of(0, 120,.5).value()).to.equal(60)
+    })
+
+    it('rounds to whole minutes', () => {
+        expect(Duration.of(60, 3000,.5).value()).to.equal(1500)
     })
 
     it('decrements', () => {

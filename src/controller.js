@@ -6,7 +6,7 @@ const Clock = Me.imports.clock.Clock
 const Sound = Me.imports.sound.Sound
 const {debug, debugTime, info} = Me.imports.log
 const MIN_TIMER = 60
-const MAX_TIMER = 3000
+const MAX_TIMER = 3600
 
 class Controller {
 

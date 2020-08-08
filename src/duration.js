@@ -7,7 +7,10 @@ class Duration {
     }
 
     static of(min, max, percentage) {
-        return new Duration((max - min) * percentage + min)
+        let range = max - min
+        let notRounded = range * percentage
+        let roundedToMinutes = Math.floor(notRounded/60)*60;
+        return new Duration(roundedToMinutes + min)
     }
 
     value() {
