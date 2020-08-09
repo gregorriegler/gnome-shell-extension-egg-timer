@@ -25,10 +25,11 @@ const Me = imports.misc.extensionUtils.getCurrentExtension()
 const {info} = Me.imports.log
 const EggTimer = Me.imports.eggtimer.EggTimer
 const EggTimerIndicator = Me.imports.indicator.EggTimerIndicator
-const Controller = Me.imports.controller.Controller
+const Presenter = Me.imports.presenter.Presenter
 const Clock = Me.imports.clock.Clock
+const Sound = Me.imports.sound.Sound
 
-let controller
+let presenter
 let indicator
 
 function init() {
@@ -38,11 +39,16 @@ function init() {
 function enable() {
     info('enabling')
     indicator = new EggTimerIndicator()
-    controller = new Controller(new EggTimer(), indicator, Clock)
+    presenter = new Presenter(
+        indicator,
+        new EggTimer(),
+        Clock,
+        new Sound()
+    )
 }
 
 function disable() {
     info(`disabling`)
-    controller.destroy()
+    presenter.destroy()
     indicator.destroy()
 }
