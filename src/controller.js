@@ -1,7 +1,6 @@
 'use strict'
 
 const Me = imports.misc.extensionUtils.getCurrentExtension()
-const EggTimer = Me.imports.eggtimer.EggTimer
 const Duration = Me.imports.duration.Duration
 const Sound = Me.imports.sound.Sound
 const {debug, debugTime, info} = Me.imports.log
@@ -10,7 +9,7 @@ const MAX_TIMER = 3600
 
 class Controller {
 
-    constructor(indicator, Clock) {
+    constructor(eggTimer, indicator, Clock) {
         this.indicator = indicator
         this.indicator.setChangeDurationByPercentHandler(this.changeDurationByPercent.bind(this))
         this.indicator.setToggleLoopHandler(this.toggleLoop.bind(this))
@@ -18,12 +17,13 @@ class Controller {
 
         this.Clock = Clock
 
-        this.eggTimer = new EggTimer()
+        this.eggTimer = eggTimer
         this.eggTimer.setTimeChangedNotification(this.displayDuration.bind(this))
         this.eggTimer.setFinishNotification(this.finish.bind(this))
         this.eggTimer.init(new Duration(MIN_TIMER))
 
         this.sound = new Sound()
+
         this.loop = false
     }
 
