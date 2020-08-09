@@ -1,6 +1,5 @@
 'use strict'
 
-// todo presenter told egg timer with init what the time is. egg timer does not need to call that info back
 class EggTimer {
 
     constructor(Clock) {
