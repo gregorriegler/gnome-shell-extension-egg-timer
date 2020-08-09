@@ -26,12 +26,9 @@ const Me = imports.misc.extensionUtils.getCurrentExtension()
 const {info} = Me.imports.log
 const EggTimerIndicator = Me.imports.indicator.EggTimerIndicator
 const Controller = Me.imports.controller.Controller
-const EggTimer = Me.imports.eggtimer.EggTimer
-const Duration = Me.imports.duration.Duration
 
 let controller
 let indicator
-let eggTimer
 
 function init() {
     info('initializing')
@@ -40,8 +37,7 @@ function init() {
 function enable() {
     info('enabling')
     indicator = new EggTimerIndicator()
-    eggTimer = new EggTimer(indicator.displayDuration.bind(indicator), new Duration(0))
-    controller = new Controller(eggTimer, indicator)
+    controller = new Controller(indicator)
 
     Main.panel.addToStatusArea(`egg-time-indicator`, indicator)
 }
