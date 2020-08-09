@@ -8,7 +8,7 @@ const MAX_TIMER = 3600
 
 class Presenter {
 
-    constructor(indicator, eggTimer, Clock, sound) {
+    constructor(indicator, eggTimer, sound) {
         this.indicator = indicator
         this.indicator.setChangeDurationByPercentNotification(this.changeDurationByPercent.bind(this))
         this.indicator.setToggleLoopNotification(this.toggleLoop.bind(this))
@@ -20,7 +20,6 @@ class Presenter {
         this.eggTimer.setFinishNotification(this.finish.bind(this))
         this.eggTimer.init(new Duration(MIN_TIMER))
 
-        this.Clock = Clock
         this.sound = sound
         this.loop = false
     }
@@ -33,13 +32,7 @@ class Presenter {
     play() {
         info('play')
         this.indicator.showPauseButton()
-        this.startTicking()
-    }
-
-    startTicking() {
-        this.clock = new this.Clock(() => {
-            this.eggTimer.tick()
-        })
+        this.eggTimer.start()
     }
 
     displayDuration(duration) {
@@ -66,17 +59,11 @@ class Presenter {
     }
 
     pause() {
-        this.stopTicking()
+        this.eggTimer.stop()
         this.indicator.showPlayButton()
     }
 
     destroy() {
-        this.stopTicking()
-    }
-
-    stopTicking() {
-        if (this.clock) {
-            this.clock.stopTicking()
-        }
+        this.eggTimer.stop()
     }
 }

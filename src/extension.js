@@ -41,8 +41,7 @@ function enable() {
     indicator = new EggTimerIndicator()
     presenter = new Presenter(
         indicator,
-        new EggTimer(),
-        Clock,
+        new EggTimer(Clock),
         new Sound()
     )
 }

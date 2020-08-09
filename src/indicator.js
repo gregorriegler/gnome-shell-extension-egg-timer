@@ -95,7 +95,7 @@ class EggTimerIndicator extends PanelMenu.Button {
     }
 
     isPlayButtonShown() {
-        return this.playPauseButton.get_child() === this.playIcon;
+        return this.playPauseButton.get_child() === this.playIcon
     }
 
     sliderMoved(item) {
