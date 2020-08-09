@@ -2,6 +2,7 @@
 
 const {St, Clutter, Gio, GObject} = imports.gi
 const Config = imports.misc.config
+const Main = imports.ui.main
 const PanelMenu = imports.ui.panelMenu
 const PopupMenu = imports.ui.popupMenu
 const Slider = imports.ui.slider
@@ -15,6 +16,7 @@ class EggTimerIndicator extends PanelMenu.Button {
 
         this.add_child(this.createPanelBox())
         this.menu.addMenuItem(this.createMenu())
+        Main.panel.addToStatusArea(`egg-time-indicator`, this)
     }
 
     setTogglePlayPauseHandler(togglePlayPause) {

@@ -21,7 +21,6 @@
  */
 'use strict'
 
-const Main = imports.ui.main
 const Me = imports.misc.extensionUtils.getCurrentExtension()
 const {info} = Me.imports.log
 const EggTimerIndicator = Me.imports.indicator.EggTimerIndicator
@@ -38,8 +37,6 @@ function enable() {
     info('enabling')
     indicator = new EggTimerIndicator()
     controller = new Controller(indicator)
-
-    Main.panel.addToStatusArea(`egg-time-indicator`, indicator)
 }
 
 function disable() {
