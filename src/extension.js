@@ -25,6 +25,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension()
 const {info} = Me.imports.log
 const EggTimerIndicator = Me.imports.indicator.EggTimerIndicator
 const Controller = Me.imports.controller.Controller
+const Clock = Me.imports.clock.Clock
 
 let controller
 let indicator
@@ -36,7 +37,7 @@ function init() {
 function enable() {
     info('enabling')
     indicator = new EggTimerIndicator()
-    controller = new Controller(indicator)
+    controller = new Controller(indicator, Clock)
 }
 
 function disable() {

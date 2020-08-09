@@ -3,7 +3,6 @@
 const Me = imports.misc.extensionUtils.getCurrentExtension()
 const EggTimer = Me.imports.eggtimer.EggTimer
 const Duration = Me.imports.duration.Duration
-const Clock = Me.imports.clock.Clock
 const Sound = Me.imports.sound.Sound
 const {debug, debugTime, info} = Me.imports.log
 const MIN_TIMER = 60
@@ -11,11 +10,13 @@ const MAX_TIMER = 3600
 
 class Controller {
 
-    constructor(indicator) {
+    constructor(indicator, Clock) {
         this.indicator = indicator
         this.indicator.setChangeDurationByPercentHandler(this.changeDurationByPercent.bind(this))
         this.indicator.setToggleLoopHandler(this.toggleLoop.bind(this))
         this.indicator.setTogglePlayPauseHandler(this.togglePlayPause.bind(this))
+
+        this.Clock = Clock
 
         this.eggTimer = new EggTimer(
             this.indicator.displayDuration.bind(this.indicator),
@@ -44,7 +45,7 @@ class Controller {
     start() {
         info('start')
         this.indicator.showPauseButton()
-        this.clock = new Clock(() => {
+        this.clock = new this.Clock(() => {
             this.eggTimer.tick(this.finish.bind(this))
         })
     }
