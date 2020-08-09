@@ -3,30 +3,30 @@ const expect = require('chai').expect
 const Duration = require('../src/duration')
 const EggTimer = require('../src/eggtimer')
 
-let timesRegistered = [];
+let timesRegistered = []
 const notifyTimeSpy = duration => {
     timesRegistered.push(duration.value())
 }
 
-let finishesRegistered = 0;
+let finishesRegistered = 0
 const notifyFinishSpy = () => {
-    finishesRegistered++;
+    finishesRegistered++
 }
 
-let eggTimer;
+let eggTimer
 const createTimer = duration => {
     return new EggTimer()
         .setTimeChangedNotification(notifyTimeSpy)
         .setFinishNotification(notifyFinishSpy)
         .init(new Duration(duration))
-};
+}
 
 describe('EggTimer', () => {
     describe('notifies about the time', () => {
         describe('starting at 2', () => {
             beforeEach(() => {
                 eggTimer = createTimer(2)
-            });
+            })
 
             it('notifies about the time on a tick', () => {
                 eggTimer.tick()
@@ -64,8 +64,8 @@ describe('EggTimer', () => {
     describe('tells when its finished', () => {
         describe('starting at 2', () => {
             beforeEach(() => {
-                eggTimer = createTimer(2);
-            });
+                eggTimer = createTimer(2)
+            })
 
             it('starts unfinished', () => {
                 expect(finishesRegistered).to.equal(0)
@@ -123,7 +123,7 @@ describe('EggTimer', () => {
     })
 
     afterEach(() => {
-        timesRegistered = [];
-        finishesRegistered = 0;
-    });
+        timesRegistered = []
+        finishesRegistered = 0
+    })
 })

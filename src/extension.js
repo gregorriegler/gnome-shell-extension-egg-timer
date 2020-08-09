@@ -40,7 +40,7 @@ function init() {
 function enable() {
     info('enabling')
     indicator = new EggTimerIndicator()
-    eggTimer = new EggTimer(Clock);
+    eggTimer = new EggTimer(Clock)
     presenter = new Presenter(indicator, eggTimer, new Sound())
 }
 
