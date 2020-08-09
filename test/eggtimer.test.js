@@ -113,15 +113,6 @@ describe('EggTimer', () => {
         })
     })
 
-    it('shows left duration', () => {
-        eggTimer = createTimer(2)
-
-        eggTimer.tick()
-        eggTimer.duration()
-
-        expect(eggTimer.duration()).to.eql(new Duration(1))
-    })
-
     afterEach(() => {
         timesRegistered = []
         finishesRegistered = 0

@@ -46,10 +46,6 @@ class EggTimer {
         }
     }
 
-    duration() {
-        return this._duration
-    }
-
     destroy() {
         this.stop()
     }
