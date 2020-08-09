@@ -20,9 +20,9 @@ class Controller {
 
         this.eggTimer = new EggTimer(
             this.indicator.displayDuration.bind(this.indicator),
-            this.finish.bind(this),
             new Duration(MIN_TIMER)
         )
+        this.eggTimer.setFinishNotification(this.finish.bind(this))
         this.sound = new Sound()
         this.loop = false
     }

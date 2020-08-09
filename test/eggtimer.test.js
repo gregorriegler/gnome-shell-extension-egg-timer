@@ -15,7 +15,9 @@ const notifyFinishSpy = () => {
 
 let eggTimer;
 const createTimer = duration => {
-    return new EggTimer(notifyTimeSpy, notifyFinishSpy, new Duration(duration));
+    let _eggTimer = new EggTimer(notifyTimeSpy, new Duration(duration));
+    _eggTimer.setFinishNotification(notifyFinishSpy)
+    return _eggTimer;
 };
 
 describe('EggTimer', () => {
