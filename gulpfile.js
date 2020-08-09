@@ -25,10 +25,6 @@ function clean(cb) {
 function test() {
     return gulp.src('test/*', {read: false})
         .pipe(mocha())
-        .on("error", function (err) {
-            console.log(err.toString())
-            this.emit('end')
-        })
 }
 
 function buildAssets() {
