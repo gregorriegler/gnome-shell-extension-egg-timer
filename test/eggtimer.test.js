@@ -34,45 +34,43 @@ const createTimer = duration => {
 
 describe('EggTimer', () => {
     describe('notifies about the time', () => {
-        describe('starting at 2', () => {
-            beforeEach(() => {
-                eggTimer = createTimer(2)
-            })
+        beforeEach(() => {
+            eggTimer = createTimer(2)
+        })
 
-            it('notifies about the time on a tick', () => {
-                eggTimer.start()
-                eggTimer.clock.tick()
+        it('notifies about the time on a tick', () => {
+            eggTimer.start()
+            eggTimer.clock.tick()
 
-                expect(timesRegistered).to.eql([1])
-            })
+            expect(timesRegistered).to.eql([1])
+        })
 
-            it('notifies about the time on each tick', () => {
-                eggTimer.start()
-                eggTimer.clock.tick()
-                eggTimer.clock.tick()
+        it('notifies about the time on each tick', () => {
+            eggTimer.start()
+            eggTimer.clock.tick()
+            eggTimer.clock.tick()
 
-                expect(timesRegistered).to.eql([1, 0])
-            })
+            expect(timesRegistered).to.eql([1, 0])
+        })
 
-            it('does not overcount', () => {
-                eggTimer.start()
-                eggTimer.clock.tick()
-                eggTimer.clock.tick()
-                eggTimer.clock.tick()
+        it('does not overcount', () => {
+            eggTimer.start()
+            eggTimer.clock.tick()
+            eggTimer.clock.tick()
+            eggTimer.clock.tick()
 
-                expect(timesRegistered).to.eql([1, 0])
-            })
+            expect(timesRegistered).to.eql([1, 0])
+        })
 
-            it('restarts count with init', () => {
-                eggTimer.start()
-                eggTimer.clock.tick()
-                eggTimer.clock.tick()
-                eggTimer.clock.tick()
-                eggTimer.init(new Duration(3))
-                eggTimer.clock.tick()
+        it('restarts count with init', () => {
+            eggTimer.start()
+            eggTimer.clock.tick()
+            eggTimer.clock.tick()
+            eggTimer.clock.tick()
+            eggTimer.init(new Duration(3))
+            eggTimer.clock.tick()
 
-                expect(timesRegistered).to.eql([1, 0, 2])
-            })
+            expect(timesRegistered).to.eql([1, 0, 2])
         })
     })
 
@@ -130,13 +128,20 @@ describe('EggTimer', () => {
 
             expect(finishesRegistered).to.equal(0)
         })
+    })
 
-        it('stops the clock', () => {
+    describe('stops the clock', () => {
+        it('stops the clock after it was started', () => {
             eggTimer = createTimer(2)
             eggTimer.start()
             eggTimer.stop()
 
             expect(eggTimer.clock.stopTickingCalled).to.equal(true)
+        })
+
+        it('does not break when the clock wasnt started', () => {
+            eggTimer = createTimer(2)
+            eggTimer.stop()
         })
 
         it('stops the clock on destroy', () => {
@@ -145,11 +150,6 @@ describe('EggTimer', () => {
             eggTimer.destroy()
 
             expect(eggTimer.clock.stopTickingCalled).to.equal(true)
-        })
-
-        it('does not break when stopping without a clock', () => {
-            eggTimer = createTimer(2)
-            eggTimer.stop()
         })
     })
 
