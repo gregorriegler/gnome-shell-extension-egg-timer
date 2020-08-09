@@ -21,18 +21,22 @@ class EggTimerIndicator extends PanelMenu.Button {
 
     setPlayClickedNotification(playClicked) {
         this.playClicked = playClicked
+        return this
     }
 
     setPauseClickedNotification(pauseClicked) {
         this.pauseClicked = pauseClicked
+        return this
     }
 
     setChangeDurationByPercentNotification(changeDurationByPercent) {
         this.changeDurationByPercent = changeDurationByPercent
+        return this
     }
 
     setToggleLoopNotification(toggleLoop) {
         this.toggleLoop = toggleLoop
+        return this
     }
 
     createPanelBox() {

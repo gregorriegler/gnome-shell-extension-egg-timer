@@ -9,15 +9,18 @@ class EggTimer {
 
     setTimeChangedNotification(notifyTime) {
         this.notifyTime = notifyTime
+        return this
     }
 
     setFinishNotification(notifyFinish) {
         this.notifyFinish = notifyFinish
+        return this
     }
 
     init(duration) {
         if(duration === undefined) return
         this._duration = duration
+        return this
     }
 
     start() {
