@@ -19,16 +19,20 @@ class EggTimerIndicator extends PanelMenu.Button {
         Main.panel.addToStatusArea(`egg-time-indicator`, this)
     }
 
-    setTogglePlayPauseHandler(togglePlayPause) {
-        this.togglePlayPause = togglePlayPause
+    setPlayClickedNotification(playClicked) {
+        this.playClicked = playClicked
     }
 
-    setChangeDurationByPercentHandler(changeDurationByPercent) {
+    setPauseClickedNotification(pauseClicked) {
+        this.pauseClicked = pauseClicked
+    }
+
+    setChangeDurationByPercentNotification(changeDurationByPercent) {
         this.changeDurationByPercent = changeDurationByPercent
     }
 
-    setToggleLoopHandler(toggleLoopHandler) {
-        this.toggleLoopHandler = toggleLoopHandler
+    setToggleLoopNotification(toggleLoop) {
+        this.toggleLoop = toggleLoop
     }
 
     createPanelBox() {
@@ -83,7 +87,11 @@ class EggTimerIndicator extends PanelMenu.Button {
     }
 
     clickPlayPause() {
-        this.togglePlayPause(this.playPauseButton.get_child() === this.playIcon)
+        if(this.playPauseButton.get_child() === this.playIcon) {
+            this.playClicked()
+        } else {
+            this.pauseClicked()
+        }
     }
 
     sliderMoved(item) {
@@ -91,7 +99,7 @@ class EggTimerIndicator extends PanelMenu.Button {
     }
 
     loopSwitchChanged() {
-        this.toggleLoopHandler(this.loopSwitch.state)
+        this.toggleLoop(this.loopSwitch.state)
     }
 
     showPauseButton() {

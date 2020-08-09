@@ -10,9 +10,10 @@ class Presenter {
 
     constructor(indicator, eggTimer, Clock, sound) {
         this.indicator = indicator
-        this.indicator.setChangeDurationByPercentHandler(this.changeDurationByPercent.bind(this))
-        this.indicator.setToggleLoopHandler(this.toggleLoop.bind(this))
-        this.indicator.setTogglePlayPauseHandler(this.togglePlayPause.bind(this))
+        this.indicator.setChangeDurationByPercentNotification(this.changeDurationByPercent.bind(this))
+        this.indicator.setToggleLoopNotification(this.toggleLoop.bind(this))
+        this.indicator.setPlayClickedNotification(this.play.bind(this))
+        this.indicator.setPauseClickedNotification(this.pause.bind(this))
 
         this.eggTimer = eggTimer
         this.eggTimer.setTimeChangedNotification(this.displayDuration.bind(this))
@@ -24,26 +25,20 @@ class Presenter {
         this.loop = false
     }
 
-    togglePlayPause(play) {
-        debug(`toggle play/pause ${play}`)
-
-        if (play) {
-            this.start()
-        } else {
-            this.pause()
-        }
-    }
-
     toggleLoop(loop) {
         debug(`toggle loop ${loop}`)
         this.loop = loop
     }
 
-    start() {
-        info('start')
+    play() {
+        info('play')
         this.indicator.showPauseButton()
+        this.startTicking()
+    }
+
+    startTicking() {
         this.clock = new this.Clock(() => {
-            this.eggTimer.tick(this.finish.bind(this))
+            this.eggTimer.tick()
         })
     }
 
@@ -56,7 +51,7 @@ class Presenter {
         this.sound.play()
         this.changeDurationByPercent(this.indicator.timeSlider.value)
         if(this.loop) {
-            this.start()
+            this.play()
         }
     }
 
