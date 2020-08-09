@@ -1,6 +1,7 @@
 {
   "name": "Egg Timer",
   "description": "A simplistic Egg Timer for the Top Panel",
+  "url": "https://github.com/gregorriegler/gnome-shell-extension-egg-timer",
   "uuid": "egg-timer@gregorriegler.com",
   "shell-version": [
     "3.36"
