@@ -19,7 +19,7 @@ class Controller {
         this.Clock = Clock
 
         this.eggTimer = new EggTimer(
-            this.indicator.displayDuration.bind(this.indicator),
+            this.displayDuration.bind(this),
             new Duration(MIN_TIMER)
         )
         this.eggTimer.setFinishNotification(this.finish.bind(this))
@@ -48,6 +48,10 @@ class Controller {
         this.clock = new this.Clock(() => {
             this.eggTimer.tick(this.finish.bind(this))
         })
+    }
+
+    displayDuration(duration) {
+        this.indicator.displayDuration(duration)
     }
 
     finish() {
