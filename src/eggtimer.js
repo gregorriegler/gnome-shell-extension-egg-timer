@@ -24,9 +24,7 @@ class EggTimer {
     }
 
     start() {
-        this.clock = new this.Clock(() => {
-            this.tick()
-        })
+        this.clock = new this.Clock(this.tick.bind(this))
     }
 
     tick() {
