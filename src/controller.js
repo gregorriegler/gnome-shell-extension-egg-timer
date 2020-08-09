@@ -13,6 +13,10 @@ class Controller {
 
     constructor(indicator) {
         this.indicator = indicator
+        this.indicator.setChangeDurationByPercentHandler(this.changeDurationByPercent.bind(this))
+        this.indicator.setToggleLoopHandler(this.toggleLoop.bind(this))
+        this.indicator.setTogglePlayPauseHandler(this.togglePlayPause.bind(this))
+
         this.eggTimer = new EggTimer(
             this.indicator.displayDuration.bind(this.indicator),
             this.finish.bind(this),
@@ -20,10 +24,6 @@ class Controller {
         )
         this.sound = new Sound()
         this.loop = false
-
-        indicator.setTogglePlayPauseHandler(this.togglePlayPause.bind(this))
-        indicator.setChangeDurationByPercentHandler(this.changeDurationByPercent.bind(this))
-        indicator.setToggleLoopHandler(this.toggleLoop.bind(this))
     }
 
     togglePlayPause(play) {
