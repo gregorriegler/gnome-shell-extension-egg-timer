@@ -13,7 +13,11 @@ class Controller {
 
     constructor(indicator) {
         this.indicator = indicator
-        this.eggTimer = new EggTimer(this.indicator.displayDuration.bind(this.indicator), new Duration(MIN_TIMER))
+        this.eggTimer = new EggTimer(
+            this.indicator.displayDuration.bind(this.indicator),
+            this.finish.bind(this),
+            new Duration(MIN_TIMER)
+        )
         this.sound = new Sound()
         this.loop = false
 

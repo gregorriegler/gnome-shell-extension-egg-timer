@@ -15,7 +15,7 @@ const notifyFinishSpy = () => {
 
 let eggTimer;
 const createTimer = duration => {
-    return new EggTimer(notifyTimeSpy, new Duration(duration));
+    return new EggTimer(notifyTimeSpy, notifyFinishSpy, new Duration(duration));
 };
 
 describe('EggTimer', () => {
@@ -30,32 +30,32 @@ describe('EggTimer', () => {
             })
 
             it('notifies about the time on a tick', () => {
-                eggTimer.tick(notifyFinishSpy)
+                eggTimer.tick()
 
                 expect(timesRegistered).to.eql([2, 1])
             })
 
             it('notifies about the time on each tick', () => {
-                eggTimer.tick(notifyFinishSpy)
-                eggTimer.tick(notifyFinishSpy)
+                eggTimer.tick()
+                eggTimer.tick()
 
                 expect(timesRegistered).to.eql([2, 1, 0])
             })
 
             it('does not overcount', () => {
-                eggTimer.tick(notifyFinishSpy)
-                eggTimer.tick(notifyFinishSpy)
-                eggTimer.tick(notifyFinishSpy)
+                eggTimer.tick()
+                eggTimer.tick()
+                eggTimer.tick()
 
                 expect(timesRegistered).to.eql([2, 1, 0])
             })
 
             it('restarts count with init', () => {
-                eggTimer.tick(notifyFinishSpy)
-                eggTimer.tick(notifyFinishSpy)
-                eggTimer.tick(notifyFinishSpy)
+                eggTimer.tick()
+                eggTimer.tick()
+                eggTimer.tick()
                 eggTimer.init(new Duration(1))
-                eggTimer.tick(notifyFinishSpy)
+                eggTimer.tick()
 
                 expect(timesRegistered).to.eql([2, 1, 0, 1, 0])
             })
@@ -79,35 +79,35 @@ describe('EggTimer', () => {
             })
 
             it('is not finished before 0', () => {
-                eggTimer.tick(notifyFinishSpy)
+                eggTimer.tick()
 
                 expect(finishesRegistered).to.equal(0)
             })
 
             it('finishes', () => {
-                eggTimer.tick(notifyFinishSpy)
-                eggTimer.tick(notifyFinishSpy)
-                eggTimer.tick(notifyFinishSpy)
+                eggTimer.tick()
+                eggTimer.tick()
+                eggTimer.tick()
 
                 expect(finishesRegistered).to.equal(1)
             })
 
             it('finishes only once', () => {
-                eggTimer.tick(notifyFinishSpy)
-                eggTimer.tick(notifyFinishSpy)
-                eggTimer.tick(notifyFinishSpy)
-                eggTimer.tick(notifyFinishSpy)
-                eggTimer.tick(notifyFinishSpy)
+                eggTimer.tick()
+                eggTimer.tick()
+                eggTimer.tick()
+                eggTimer.tick()
+                eggTimer.tick()
 
                 expect(finishesRegistered).to.equal(1)
             })
 
             it('finishes a second time after init', () => {
-                eggTimer.tick(notifyFinishSpy)
-                eggTimer.tick(notifyFinishSpy)
-                eggTimer.tick(notifyFinishSpy)
+                eggTimer.tick()
+                eggTimer.tick()
+                eggTimer.tick()
                 eggTimer.init(new Duration(1))
-                eggTimer.tick(notifyFinishSpy)
+                eggTimer.tick()
 
                 expect(finishesRegistered).to.equal(2)
             })
@@ -123,7 +123,7 @@ describe('EggTimer', () => {
     it('shows left duration', () => {
         eggTimer = createTimer(2)
 
-        eggTimer.tick(notifyFinishSpy)
+        eggTimer.tick()
         eggTimer.duration()
 
         expect(eggTimer.duration()).to.eql(new Duration(1))

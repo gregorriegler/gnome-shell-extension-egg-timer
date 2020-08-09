@@ -1,8 +1,9 @@
 'use strict'
 
 class EggTimer {
-    constructor(notifyTime, duration) {
+    constructor(notifyTime, notifyFinish, duration) {
         this.notifyTime = notifyTime
+        this.notifyFinish = notifyFinish
         this.init(duration)
     }
 
@@ -12,14 +13,14 @@ class EggTimer {
         this.notifyTime(this._duration)
     }
 
-    tick(notifyFinish) {
+    tick() {
         if (this._duration.zero()) {
             return
         }
         this._duration = this._duration.decrement()
         this.notifyTime(this._duration)
         if (this._duration.zero()) {
-            notifyFinish()
+            this.notifyFinish()
         }
     }
 
