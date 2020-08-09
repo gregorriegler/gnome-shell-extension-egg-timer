@@ -13,9 +13,20 @@ const notifyFinishSpy = () => {
     finishesRegistered++
 }
 
+class ClockSpy {
+
+    constructor(tick) {
+        this.tick = tick
+    }
+
+    stopTicking() {
+        this.stopTickingCalled = true
+    }
+}
+
 let eggTimer
 const createTimer = duration => {
-    return new EggTimer()
+    return new EggTimer(ClockSpy)
         .setTimeChangedNotification(notifyTimeSpy)
         .setFinishNotification(notifyFinishSpy)
         .init(new Duration(duration))
@@ -29,32 +40,36 @@ describe('EggTimer', () => {
             })
 
             it('notifies about the time on a tick', () => {
-                eggTimer.tick()
+                eggTimer.start()
+                eggTimer.clock.tick()
 
                 expect(timesRegistered).to.eql([1])
             })
 
             it('notifies about the time on each tick', () => {
-                eggTimer.tick()
-                eggTimer.tick()
+                eggTimer.start()
+                eggTimer.clock.tick()
+                eggTimer.clock.tick()
 
                 expect(timesRegistered).to.eql([1, 0])
             })
 
             it('does not overcount', () => {
-                eggTimer.tick()
-                eggTimer.tick()
-                eggTimer.tick()
+                eggTimer.start()
+                eggTimer.clock.tick()
+                eggTimer.clock.tick()
+                eggTimer.clock.tick()
 
                 expect(timesRegistered).to.eql([1, 0])
             })
 
             it('restarts count with init', () => {
-                eggTimer.tick()
-                eggTimer.tick()
-                eggTimer.tick()
+                eggTimer.start()
+                eggTimer.clock.tick()
+                eggTimer.clock.tick()
+                eggTimer.clock.tick()
                 eggTimer.init(new Duration(3))
-                eggTimer.tick()
+                eggTimer.clock.tick()
 
                 expect(timesRegistered).to.eql([1, 0, 2])
             })
@@ -72,44 +87,69 @@ describe('EggTimer', () => {
             })
 
             it('is not finished before 0', () => {
-                eggTimer.tick()
+                eggTimer.start()
+                eggTimer.clock.tick()
 
                 expect(finishesRegistered).to.equal(0)
             })
 
             it('finishes', () => {
-                eggTimer.tick()
-                eggTimer.tick()
-                eggTimer.tick()
+                eggTimer.start()
+                eggTimer.clock.tick()
+                eggTimer.clock.tick()
+                eggTimer.clock.tick()
 
                 expect(finishesRegistered).to.equal(1)
             })
 
             it('finishes only once', () => {
-                eggTimer.tick()
-                eggTimer.tick()
-                eggTimer.tick()
-                eggTimer.tick()
-                eggTimer.tick()
+                eggTimer.start()
+                eggTimer.clock.tick()
+                eggTimer.clock.tick()
+                eggTimer.clock.tick()
+                eggTimer.clock.tick()
+                eggTimer.clock.tick()
 
                 expect(finishesRegistered).to.equal(1)
             })
 
             it('finishes a second time after init', () => {
-                eggTimer.tick()
-                eggTimer.tick()
-                eggTimer.tick()
+                eggTimer.start()
+                eggTimer.clock.tick()
+                eggTimer.clock.tick()
+                eggTimer.clock.tick()
                 eggTimer.init(new Duration(1))
-                eggTimer.tick()
+                eggTimer.clock.tick()
 
                 expect(finishesRegistered).to.equal(2)
             })
         })
 
-        it('does not bell when starting finished', () => {
+        it('does not bell when starting at 0', () => {
             eggTimer = createTimer(0)
 
             expect(finishesRegistered).to.equal(0)
+        })
+
+        it('stops the clock', () => {
+            eggTimer = createTimer(2)
+            eggTimer.start()
+            eggTimer.stop()
+
+            expect(eggTimer.clock.stopTickingCalled).to.equal(true)
+        })
+
+        it('stops the clock on destroy', () => {
+            eggTimer = createTimer(2)
+            eggTimer.start()
+            eggTimer.destroy()
+
+            expect(eggTimer.clock.stopTickingCalled).to.equal(true)
+        })
+
+        it('does not break when stopping without a clock', () => {
+            eggTimer = createTimer(2)
+            eggTimer.stop()
         })
     })
 
