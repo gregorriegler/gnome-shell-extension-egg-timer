@@ -42,15 +42,7 @@ function enable() {
     indicator = new EggTimerIndicator()
     eggTimer = new EggTimer(indicator.displayDuration.bind(indicator), new Duration(0))
     controller = new Controller(eggTimer, indicator)
-    indicator.setTogglePlayPauseHandler(function (play) {
-        controller.togglePlayPause(play)
-    })
-    indicator.setChangeDurationByPercentHandler(function (percentage) {
-        controller.changeDurationByPercent(percentage)
-    })
-    indicator.setToggleLoopHandler(function (loop) {
-        controller.toggleLoop(loop)
-    })
+
     Main.panel.addToStatusArea(`egg-time-indicator`, indicator)
 }
 

@@ -17,6 +17,9 @@ class Controller {
         this.sound = new Sound()
         this.loop = false;
 
+        indicator.setTogglePlayPauseHandler(this.togglePlayPause.bind(this))
+        indicator.setChangeDurationByPercentHandler(this.changeDurationByPercent.bind(this))
+        indicator.setToggleLoopHandler(this.toggleLoop.bind(this))
     }
 
     togglePlayPause(play) {
