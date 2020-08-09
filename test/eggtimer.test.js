@@ -15,16 +15,18 @@ const notifyFinishSpy = () => {
 
 let eggTimer;
 const createTimer = duration => {
-    let _eggTimer = new EggTimer(notifyTimeSpy, new Duration(duration));
+    let _eggTimer = new EggTimer()
+    _eggTimer.setTimeChangedNotification(notifyTimeSpy)
     _eggTimer.setFinishNotification(notifyFinishSpy)
-    return _eggTimer;
+    _eggTimer.init(new Duration(duration))
+    return _eggTimer
 };
 
 describe('EggTimer', () => {
     describe('notifies about the time', () => {
         describe('starting at 2', () => {
             beforeEach(() => {
-                eggTimer = createTimer(2);
+                eggTimer = createTimer(2)
             });
 
             it('notifies about initial time', () => {

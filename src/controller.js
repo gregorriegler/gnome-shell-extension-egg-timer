@@ -18,11 +18,11 @@ class Controller {
 
         this.Clock = Clock
 
-        this.eggTimer = new EggTimer(
-            this.displayDuration.bind(this),
-            new Duration(MIN_TIMER)
-        )
+        this.eggTimer = new EggTimer()
+        this.eggTimer.setTimeChangedNotification(this.displayDuration.bind(this))
         this.eggTimer.setFinishNotification(this.finish.bind(this))
+        this.eggTimer.init(new Duration(MIN_TIMER))
+
         this.sound = new Sound()
         this.loop = false
     }
@@ -39,7 +39,7 @@ class Controller {
 
     toggleLoop(loop) {
         debug(`toggle loop ${loop}`)
-        this.loop = loop;
+        this.loop = loop
     }
 
     start() {
@@ -74,12 +74,12 @@ class Controller {
     }
 
     pause() {
-        this.stopTicking();
+        this.stopTicking()
         this.indicator.showPlayButton()
     }
 
     destroy() {
-        this.stopTicking();
+        this.stopTicking()
     }
 
     stopTicking() {
