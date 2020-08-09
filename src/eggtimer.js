@@ -26,10 +26,6 @@ class EggTimer {
     duration() {
         return this._duration
     }
-
-    over() {
-        return this._duration.zero()
-    }
 }
 
 module.exports = EggTimer

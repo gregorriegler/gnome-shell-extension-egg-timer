@@ -120,54 +120,6 @@ describe('EggTimer', () => {
         })
     })
 
-    describe('answers whether its over', () => {
-        beforeEach(() => {
-            eggTimer = createTimer(2);
-        });
-
-        it('starts not over', () => {
-            expect(eggTimer.over()).to.equal(false)
-        })
-
-        it('is not over before 0', () => {
-            eggTimer.tick(notifyFinishSpy)
-
-            expect(eggTimer.over()).to.equal(false)
-        })
-
-        it('is over on 0', () => {
-            eggTimer.tick(notifyFinishSpy)
-            eggTimer.tick(notifyFinishSpy)
-            eggTimer.tick(notifyFinishSpy)
-
-            expect(eggTimer.over()).to.equal(true)
-        })
-
-        it('stays over beyond 0', () => {
-            eggTimer.tick(notifyFinishSpy)
-            eggTimer.tick(notifyFinishSpy)
-            eggTimer.tick(notifyFinishSpy)
-            eggTimer.tick(notifyFinishSpy)
-
-            expect(eggTimer.over()).to.equal(true)
-        })
-
-        it('starts over', () => {
-            eggTimer = createTimer(0)
-
-            expect(eggTimer.over()).to.equal(true)
-        })
-
-        it('not over after reinitialization', () => {
-            eggTimer.tick(notifyFinishSpy)
-            eggTimer.tick(notifyFinishSpy)
-            eggTimer.tick(notifyFinishSpy)
-            eggTimer.init(new Duration(2))
-
-            expect(eggTimer.over()).to.equal(false)
-        })
-    })
-
     it('shows left duration', () => {
         eggTimer = createTimer(2)
 
