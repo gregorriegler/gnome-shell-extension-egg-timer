@@ -18,7 +18,6 @@ class EggTimer {
     init(duration) {
         if(duration === undefined) return
         this._duration = duration
-        this.notifyTime(this._duration)
     }
 
     start() {
@@ -46,6 +45,10 @@ class EggTimer {
 
     duration() {
         return this._duration
+    }
+
+    destroy() {
+        this.stop()
     }
 }
 

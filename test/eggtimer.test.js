@@ -29,21 +29,17 @@ describe('EggTimer', () => {
                 eggTimer = createTimer(2)
             });
 
-            it('notifies about initial time', () => {
-                expect(timesRegistered).to.eql([2])
-            })
-
             it('notifies about the time on a tick', () => {
                 eggTimer.tick()
 
-                expect(timesRegistered).to.eql([2, 1])
+                expect(timesRegistered).to.eql([1])
             })
 
             it('notifies about the time on each tick', () => {
                 eggTimer.tick()
                 eggTimer.tick()
 
-                expect(timesRegistered).to.eql([2, 1, 0])
+                expect(timesRegistered).to.eql([1, 0])
             })
 
             it('does not overcount', () => {
@@ -51,24 +47,18 @@ describe('EggTimer', () => {
                 eggTimer.tick()
                 eggTimer.tick()
 
-                expect(timesRegistered).to.eql([2, 1, 0])
+                expect(timesRegistered).to.eql([1, 0])
             })
 
             it('restarts count with init', () => {
                 eggTimer.tick()
                 eggTimer.tick()
                 eggTimer.tick()
-                eggTimer.init(new Duration(1))
+                eggTimer.init(new Duration(3))
                 eggTimer.tick()
 
-                expect(timesRegistered).to.eql([2, 1, 0, 1, 0])
+                expect(timesRegistered).to.eql([1, 0, 2])
             })
-        })
-
-        it('starting at 0', () => {
-            eggTimer = createTimer(0);
-
-            expect(timesRegistered).to.eql([0])
         })
     })
 

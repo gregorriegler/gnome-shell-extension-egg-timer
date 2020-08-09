@@ -31,6 +31,7 @@ const Sound = Me.imports.sound.Sound
 
 let presenter
 let indicator
+let eggTimer
 
 function init() {
     info('initializing')
@@ -39,15 +40,12 @@ function init() {
 function enable() {
     info('enabling')
     indicator = new EggTimerIndicator()
-    presenter = new Presenter(
-        indicator,
-        new EggTimer(Clock),
-        new Sound()
-    )
+    eggTimer = new EggTimer(Clock);
+    presenter = new Presenter(indicator, eggTimer, new Sound())
 }
 
 function disable() {
     info(`disabling`)
-    presenter.destroy()
     indicator.destroy()
+    eggTimer.destroy()
 }

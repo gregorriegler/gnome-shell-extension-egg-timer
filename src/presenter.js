@@ -16,9 +16,10 @@ class Presenter {
         this.indicator.setPauseClickedNotification(this.pause.bind(this))
 
         this.eggTimer = eggTimer
-        this.eggTimer.setTimeChangedNotification(this.displayDuration.bind(this))
+        this.eggTimer.setTimeChangedNotification(this.durationChanged.bind(this))
         this.eggTimer.setFinishNotification(this.finish.bind(this))
-        this.eggTimer.init(new Duration(MIN_TIMER))
+
+        this.changeDuration(new Duration(MIN_TIMER))
 
         this.sound = sound
         this.loop = false
@@ -33,10 +34,6 @@ class Presenter {
         info('play')
         this.indicator.showPauseButton()
         this.eggTimer.start()
-    }
-
-    displayDuration(duration) {
-        this.indicator.displayDuration(duration)
     }
 
     finish() {
@@ -54,16 +51,17 @@ class Presenter {
 
     changeDuration(duration) {
         debugTime('change duration', duration)
+        this.durationChanged(duration)
         this.eggTimer.init(duration)
         this.pause()
+    }
+
+    durationChanged(duration) {
+        this.indicator.displayDuration(duration)
     }
 
     pause() {
         this.eggTimer.stop()
         this.indicator.showPlayButton()
-    }
-
-    destroy() {
-        this.eggTimer.stop()
     }
 }
