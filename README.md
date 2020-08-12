@@ -24,6 +24,9 @@ Just download the latest [egg-timer@gregorriegler.com.zip](https://github.com/gr
 
 and extract it to `~/.local/share/gnome-shell/extensions`
 
+## Install from the Gnome Extensions Page
+You can also install it from this page https://extensions.gnome.org/extension/3423/egg-timer/ where you have to install a browser extension. But this is really basically a two click install.
+
 ## Restart during development
 ```
 npm run start
