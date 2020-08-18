@@ -10,10 +10,11 @@ class Presenter {
 
     constructor(indicator, eggTimer, sound) {
         this.indicator = indicator
-            .setChangeDurationByPercentNotification(this.changeDurationByPercent.bind(this))
+            .setSliderMovedNotification(this.sliderMoved.bind(this))
             .setToggleLoopNotification(this.toggleLoop.bind(this))
             .setPlayClickedNotification(this.play.bind(this))
             .setPauseClickedNotification(this.pause.bind(this))
+            .setToggleMenuNotification(this.toggleMenu.bind(this))
 
         this.eggTimer = eggTimer
             .setTimeChangedNotification(this.durationChanged.bind(this))
@@ -25,6 +26,19 @@ class Presenter {
         this.changeDuration(new Duration(MIN_TIMER))
     }
 
+    toggleMenu(open) {
+        info(`toggle menu ${open}`)
+        if (open || this.slidersDuration().value() !== this.eggTimer._duration.value()) {
+            this.indicator.showTimeDisplay()
+        } else {
+            this.indicator.hideTimeDisplay()
+        }
+    }
+
+    sliderMoved() {
+        this.changeDuration(this.slidersDuration())
+    }
+
     toggleLoop(loop) {
         debug(`toggle loop ${loop}`)
         this.loop = loop
@@ -33,20 +47,23 @@ class Presenter {
     play() {
         info('play')
         this.indicator.showPauseButton()
+        this.indicator.showTimeDisplay()
         this.eggTimer.start()
     }
 
     finish() {
         info('finish')
         this.sound.play()
-        this.changeDurationByPercent(this.indicator.timeSlider.value)
+        this.changeDuration(this.slidersDuration())
         if (this.loop) {
             this.play()
+        } else {
+            this.indicator.hideTimeDisplay()
         }
     }
 
-    changeDurationByPercent(percentage) {
-        this.changeDuration(Duration.of(MIN_TIMER, MAX_TIMER, percentage))
+    slidersDuration() {
+        return Duration.of(MIN_TIMER, MAX_TIMER, this.indicator.timeSlider.value)
     }
 
     changeDuration(duration) {
@@ -58,6 +75,7 @@ class Presenter {
 
     durationChanged(duration) {
         this.indicator.displayDuration(duration)
+        this.indicator.showTimeDisplay()
     }
 
     pause() {

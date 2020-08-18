@@ -16,6 +16,10 @@ class EggTimerIndicator extends PanelMenu.Button {
 
         this.add_child(this.createPanelBox())
         this.menu.addMenuItem(this.createMenu())
+        var openStateChanged = (item, open) => {
+            this.toggleMenu(item, open)
+        }
+        this.menu.connect('open-state-changed', openStateChanged)
         Main.panel.addToStatusArea(`egg-time-indicator`, this)
     }
 
@@ -29,8 +33,8 @@ class EggTimerIndicator extends PanelMenu.Button {
         return this
     }
 
-    setChangeDurationByPercentNotification(changeDurationByPercent) {
-        this.changeDurationByPercent = changeDurationByPercent
+    setSliderMovedNotification(sliderMovedNotification) {
+        this.sliderMovedNotification = sliderMovedNotification
         return this
     }
 
@@ -39,18 +43,22 @@ class EggTimerIndicator extends PanelMenu.Button {
         return this
     }
 
+    setToggleMenuNotification(toggleMenuNotification) {
+        this.toggleMenuNotification = toggleMenuNotification
+        return this
+    }
+
     createPanelBox() {
         this.timeDisplay = new St.Label({
             text: new Duration(0).prettyPrint(),
             y_align: Clutter.ActorAlign.CENTER,
         })
-        let panelBox = new St.BoxLayout()
-        panelBox.add(new St.Icon({
+        this.panelBox = new St.BoxLayout()
+        this.panelBox.add_child(new St.Icon({
             gicon: Gio.icon_new_for_string(`${Me.path}/egg.svg`),
             style_class: 'system-status-icon'
         }))
-        panelBox.add(this.timeDisplay)
-        return panelBox
+        return this.panelBox
     }
 
     createMenu() {
@@ -102,8 +110,12 @@ class EggTimerIndicator extends PanelMenu.Button {
         return this.playPauseButton.get_child() === this.playIcon
     }
 
+    toggleMenu(item, open) {
+        this.toggleMenuNotification(open)
+    }
+
     sliderMoved(item) {
-        this.changeDurationByPercent(item.value)
+        this.sliderMovedNotification(item.value)
     }
 
     loopSwitchChanged() {
@@ -121,6 +133,14 @@ class EggTimerIndicator extends PanelMenu.Button {
         if (this.playPauseButton.get_child() !== this.playIcon) {
             this.playPauseButton.set_child(this.playIcon)
         }
+    }
+
+    showTimeDisplay() {
+        this.panelBox.add_child(this.timeDisplay)
+    }
+
+    hideTimeDisplay() {
+        this.panelBox.remove_child(this.timeDisplay)
     }
 }
 
