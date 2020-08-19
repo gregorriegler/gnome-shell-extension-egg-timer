@@ -68,7 +68,7 @@ class Presenter {
 
     changeDuration(duration) {
         debugTime('change duration', duration)
-        this.durationChanged(duration)
+        this.indicator.displayDuration(duration)
         this.eggTimer.init(duration)
         this.pause()
     }
