@@ -7,8 +7,9 @@ The existing timer extensions did not work on Gnome 3.36.x so i had to write my 
 ![Egg Timer](egg-timer.png)
 
 Tested on Ubuntu 20.04!
+
 Does not work on Ubuntu 18.04 / Gnome 3.28.2!
-I'd be happy about a pull request fixing the older Gnome!
+I'd be happy about a pull request fixing that
 
 - Icons made by Freepik <http://www.freepik.com/> from Flaticon <https://www.flaticon.com/>
 - Sound from Mobtimer <https://github.com/zoeesilcock/mobtimer-react/blob/master/public/audio/music_box.wav>
