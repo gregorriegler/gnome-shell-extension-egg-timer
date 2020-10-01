@@ -15,7 +15,7 @@ I'd be happy about a pull request fixing that
 - Sound from Mobtimer <https://github.com/zoeesilcock/mobtimer-react/blob/master/public/audio/music_box.wav>
 
 ## Install from the Gnome Extensions Page
-You can also install it from this page https://extensions.gnome.org/extension/3423/egg-timer/ where you have to install a browser extension. But this is really basically a two click install.
+You can install it in two clicks from this page https://extensions.gnome.org/extension/3423/egg-timer/.
 
 ## Install via npm
 ```
