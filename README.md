@@ -14,6 +14,9 @@ I'd be happy about a pull request fixing that
 - Icons made by Freepik <http://www.freepik.com/> from Flaticon <https://www.flaticon.com/>
 - Sound from Mobtimer <https://github.com/zoeesilcock/mobtimer-react/blob/master/public/audio/music_box.wav>
 
+## Install from the Gnome Extensions Page
+You can also install it from this page https://extensions.gnome.org/extension/3423/egg-timer/ where you have to install a browser extension. But this is really basically a two click install.
+
 ## Install via npm
 ```
 git clone git@github.com:gregorriegler/gnome-shell-extension-egg-timer.git
@@ -26,9 +29,6 @@ npm install
 Just download the latest [egg-timer@gregorriegler.com.zip](https://github.com/gregorriegler/gnome-shell-extension-egg-timer/releases/download/v0.2-beta/egg-timer@gregorriegler.com.zip) from the [release](https://github.com/gregorriegler/gnome-shell-extension-egg-timer/releases/) page
 
 and extract it to `~/.local/share/gnome-shell/extensions`
-
-## Install from the Gnome Extensions Page
-You can also install it from this page https://extensions.gnome.org/extension/3423/egg-timer/ where you have to install a browser extension. But this is really basically a two click install.
 
 ## Restart during development
 ```
